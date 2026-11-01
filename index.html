@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Khemji Café · Happy Hearts</title>
+<meta name="description" content="Khemji Café. Every cup starts as a whole bean and is ground after you order. Come say hi.">
+<meta name="theme-color" content="#efe6da">
+<!-- DEPLOY STEP: replace both with the live absolute URL -->
+<meta property="og:title" content="Khemji Café · Happy Hearts">
+<meta property="og:description" content="Fresh to order. Grind, pour, sip, and find your cup.">
+<meta property="og:image" content="assets/s5-end.jpg">
+<meta property="og:url" content="https://example.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232b1d15'/%3E%3Cpath d='M32 46s-13-8-13-18a7 7 0 0 1 13-4 7 7 0 0 1 13 4c0 10-13 18-13 18z' fill='%23b8643f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Fraunces:opsz,wght,SOFT,WONK@9..144,800..900,100,1&family=Outfit:wght@400;500;600&family=Shrikhand&display=swap">
+<style>
+:root{
+  --canvas:#efe6da; --panel:#f8f1e7; --accent:#b8643f; --accent-hover:#9c4f2e; --accent-muted:#d9a586;
+  --text-secondary:#5f4b3d; --text-primary:#2b1d15; --espresso:#1f120a; --line:rgba(43,29,21,.16); --line-strong:rgba(43,29,21,.42);
+  --f-display:"Fraunces", Georgia, serif; --f-groove:"Shrikhand", "Fraunces", Georgia, serif;
+  --f-body:"Outfit", "Helvetica Neue", Arial, sans-serif; --f-mono:"DM Mono", ui-monospace, Menlo, monospace;
+  --ease-out:cubic-bezier(.16,1,.3,1); --ease-io:cubic-bezier(.65,0,.35,1);
+  --lshadow:0 1px 1px rgba(246,239,229,.9), 0 2px 14px rgba(246,239,229,.85), 0 8px 40px rgba(246,239,229,.7);
+  --dshadow:0 1px 2px rgba(20,10,4,.95), 0 3px 12px rgba(20,10,4,.78), 0 10px 44px rgba(20,10,4,.8);
+  --gl:max(18px, env(safe-area-inset-left,0px)); --gr:max(18px, env(safe-area-inset-right,0px));
+}
+*{box-sizing:border-box}
+html{overflow-x:hidden; overflow-x:clip; background:var(--canvas)}
+body{margin:0; overflow-x:hidden; overflow-x:clip; background:var(--canvas); color:var(--text-primary); font-family:var(--f-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+html.lenis, html.lenis body{height:auto} .lenis.lenis-smooth{scroll-behavior:auto!important}
+img{max-width:100%; display:block}
+a{color:inherit}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:8px}
+.sr{position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.skip{position:fixed; left:12px; top:-60px; z-index:100; background:var(--text-primary); color:var(--panel); padding:10px 14px; border-radius:10px; transition:top .3s var(--ease-out)}
+.skip:focus{top:12px}
+
+/* environment layer: slow warm glow + grain behind everything */
+.env{position:fixed; inset:-20%; z-index:-1; pointer-events:none;
+  background:radial-gradient(40% 35% at 30% 30%, rgba(217,165,134,.28), transparent 70%), radial-gradient(35% 30% at 75% 70%, rgba(184,100,63,.14), transparent 70%);
+  animation:drift 70s ease-in-out infinite alternate; animation-delay:-20s}
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.06; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes drift{from{transform:translate3d(-3%,-2%,0) rotate(0)} to{transform:translate3d(3%,2%,0) rotate(8deg)}}
+
+/* header */
+.top{position:fixed; z-index:50; top:calc(env(safe-area-inset-top,0px) + 14px); left:var(--gl); right:var(--gr); display:flex; justify-content:space-between; align-items:center; gap:12px; pointer-events:none}
+.top > *{pointer-events:auto}
+.pill-wrap{display:flex; align-items:center; gap:4px; padding:6px; border-radius:999px; background:rgba(246,239,229,.72); backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); border:1px solid var(--line)}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; padding:6px 14px 6px 8px}
+.brand svg{width:26px; height:26px}
+.brand b{font-weight:600; letter-spacing:.08em; font-size:.92rem}
+.brand span{font-weight:400; opacity:.55; margin:0 .3em}
+.nav a{text-decoration:none; padding:8px 14px; border-radius:999px; font-size:.9rem; transition:background .3s var(--ease-out)}
+.nav a:hover{background:rgba(43,29,21,.07)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:999px; padding:13px 22px; font-weight:600; font-size:.92rem; text-decoration:none; transition:transform .45s var(--ease-out), background .3s var(--ease-out), box-shadow .45s var(--ease-out)}
+.btn-accent{background:var(--accent); color:#fff8f0; box-shadow:0 10px 30px -12px rgba(156,79,46,.7)}
+.btn-accent:hover{background:var(--accent-hover); transform:translateY(-2px)}
+.btn-ghost{background:rgba(246,239,229,.6); border:1.5px solid var(--line-strong); color:var(--text-primary)}
+.btn-ghost:hover{background:var(--panel); transform:translateY(-2px)}
+.nav .btn{padding:9px 16px; font-size:.86rem}
+.btn svg{width:16px; height:16px}
+
+/* ---------------- scenes ---------------- */
+.scene{position:relative; height:330vh}
+.stage{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; background:var(--canvas) center/cover no-repeat}
+.stage video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s var(--ease-out); will-change:transform; transform:translateZ(0)}
+.stage.video-ready video{opacity:1}
+.stage.video-failed video{display:none}
+.wash{position:absolute; inset:0; pointer-events:none}
+.ring{position:absolute; z-index:6; right:calc(var(--gr) + 6px); bottom:22px; width:34px; height:34px; color:var(--accent); transform:rotate(-90deg); transition:opacity .6s var(--ease-out)}
+.ring circle:first-child{stroke:var(--line)}
+.stage.video-ready .ring, .stage.video-failed .ring{opacity:0}
+
+/* caption bands */
+.band{position:absolute; z-index:4; text-shadow:var(--lshadow); --k:0; will-change:opacity}
+.band::before{content:""; position:absolute; inset:-18% -14%; z-index:-1; pointer-events:none; opacity:calc(.3 + .7*var(--k,1));
+  background:radial-gradient(ellipse 60% 58% at 50% 50%, rgba(243,235,224,.78) 0%, rgba(243,235,224,.5) 48%, rgba(243,235,224,0) 76%)}
+.band.dark{text-shadow:var(--dshadow); color:#f6eadb}
+.band.dark::before{background:radial-gradient(ellipse 62% 60% at 50% 50%, rgba(18,9,4,.62) 0%, rgba(18,9,4,.4) 46%, rgba(18,9,4,0) 76%)}
+.band .btn{text-shadow:none}
+.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-secondary)}
+.dark .eyebrow{color:#e5cdb4}
+.stage .disp{text-transform:uppercase}
+.disp{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; letter-spacing:-.02em; line-height:.86; margin:0}
+.groove{font-family:var(--f-groove); font-weight:400; color:var(--accent); line-height:.95; margin:0}
+.lede{margin:0; max-width:34ch; font-size:1.06rem; color:var(--text-secondary)}
+.dark .lede{color:#f0dfcc}
+.row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+
+/* word choreography, all transform + opacity off --k */
+.w{display:inline-block; --kc:clamp(0, (var(--k,0) - var(--th,0)) * 2.8, 1); opacity:var(--kc)}
+.fx-drift .w{transform:translateY(calc((1 - var(--kc)) * -0.45em))}
+.fx-rise .w{transform:translateY(calc((1 - var(--kc)) * 0.6em))}
+.fx-punch .w{--ks:clamp(0, (var(--k,0) - var(--th,0) - .12) * 2.6, 1); transform:scale(calc(.6 + .64 * var(--kc) - .24 * var(--ks)))}
+.fx-part .w{transform:translateX(calc((1 - var(--kc)) * var(--dir, 1) * -0.5em))}
+.sub{--ks:clamp(0, (var(--k,0) - .5) * 3.2, 1); opacity:var(--ks); transform:translateY(calc((1 - var(--ks)) * 14px))}
+.sub2{--kb:clamp(0, (var(--k,0) - .7) * 4, 1); opacity:var(--kb); transform:translateY(calc((1 - var(--kb)) * 14px))}
+
+/* scene 1 */
+.b1{left:max(var(--gl), 6vw); top:50%; translate:0 -46%; display:grid; gap:18px}
+.b1 h1{font-size:clamp(4.6rem, 12.5vw, 12.5rem); text-transform:uppercase}
+.b1 .groove{font-size:clamp(3rem, 7vw, 7rem); margin-top:-.25em; margin-left:.12em}
+/* scene 2 */
+.b2a{left:max(var(--gl), 5vw); top:50%; translate:0 -50%; display:grid; gap:16px; max-width:min(40vw, 520px)}
+.b2a .disp{font-size:clamp(4.6rem, 13vw, 13rem)}
+.b2b{right:max(var(--gr), 6vw); top:50%; translate:0 -50%; display:flex; flex-direction:column; align-items:center; font-size:clamp(3rem, 7vw, 6.6rem)}
+.chips{position:absolute; z-index:5; right:max(var(--gr), 5vw); bottom:9vh; display:grid; gap:8px; justify-items:end}
+.chip{font-family:var(--f-mono); font-size:.78rem; letter-spacing:.04em; padding:9px 14px; border-radius:999px; background:rgba(248,241,231,.86); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:inline-flex; gap:8px; align-items:center; opacity:var(--o,0); transform:translateX(calc((1 - var(--o,0)) * 18px))}
+.chip::before{content:""; width:8px; height:8px; border-radius:2px; transform:rotate(45deg); background:var(--accent)}
+/* scene 3 */
+.b3{left:max(var(--gl), 15vw); top:12vh; display:grid; gap:10px}
+.b3 h2{font-size:clamp(3.6rem, 8.4vw, 8.6rem)}
+.b3 .groove{font-size:clamp(2.8rem, 6vw, 6.2rem); margin-top:-.3em}
+.arrow{width:min(240px, 44vw); height:22px; color:var(--text-primary)}
+.arrow path{stroke-dasharray:300; stroke-dashoffset:calc(300 - 300 * var(--k,0))}
+/* scene 4 */
+.b4{left:max(var(--gl), 6vw); bottom:9vh; display:grid; gap:10px}
+.b4 h2{font-size:clamp(6rem, 22vw, 22rem); color:#f6eadb; line-height:.8}
+.b4 .lede{max-width:30ch}
+/* scene 5 */
+.b5{left:50%; top:13vh; translate:-50% 0; text-align:center; display:grid; justify-items:center; gap:18px; width:min(92vw, 900px)}
+.b5 h2{font-size:clamp(3rem, 7.4vw, 7.2rem); text-wrap:balance}
+.orbit{position:absolute; left:50%; top:38%; width:min(130%, 980px); translate:-50% -50%; rotate:-10deg; z-index:-1; overflow:visible; pointer-events:none}
+.orbit ellipse{stroke-dasharray:2200; stroke-dashoffset:calc(2200 - 2200 * var(--k,0))}
+.spark{position:absolute; width:22px; height:22px; color:var(--text-primary); opacity:var(--kb,0); transform:scale(var(--kb,0)) rotate(calc(var(--kb,0) * 90deg))}
+
+.cue{position:absolute; z-index:5; left:50%; bottom:20px; translate:-50% 0; display:grid; justify-items:center; gap:6px; font-family:var(--f-mono); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary)}
+.cue i{display:block; width:1.5px; height:30px; background:linear-gradient(var(--text-primary), transparent); transform-origin:top; animation:cue 2.2s var(--ease-io) infinite; animation-delay:-.4s}
+@keyframes cue{0%{transform:scaleY(0)} 50%{transform:scaleY(1)} 100%{transform:scaleY(1); opacity:0}}
+
+/* ---------------- static hero mode (the five gates) ---------------- */
+@media (max-width: 720px), (orientation: portrait) and (max-width: 1024px), (orientation: portrait) and (pointer: coarse), (orientation: landscape) and (pointer: coarse) and (max-height: 560px), (prefers-reduced-motion: reduce){
+  .scene{height:auto}
+  .stage{position:relative; height:100vh; height:100svh}
+  .stage video, .ring{display:none}
+  #s1 .stage{background-image:url("assets/s1-end.jpg")}
+  #s2 .stage{background-image:url("assets/s2-end.jpg")}
+  #s3 .stage{background-image:url("assets/s3-end.jpg"); background-position:58% center}
+  #s4 .stage{background-image:url("assets/s4-end.jpg")}
+  #s5 .stage{background-image:url("assets/s5-end.jpg")}
+  .band{--k:1!important; opacity:1!important}
+  .chip{--o:1!important}
+  .cue{display:none}
+}
+@media (max-width: 720px){
+  .nav a:not(.btn){display:none}
+  .b1, .b2a{top:auto; bottom:8vh; translate:none; left:var(--gl); right:var(--gr)} .b3{top:11vh; left:var(--gl); right:var(--gr)}
+  .b1 h1{font-size:22vw} .b2a .disp{font-size:24vw}
+  .b2b{top:16vh; translate:none; right:var(--gr)}
+  .chips{display:none}
+  .b2a{max-width:none}
+  .b4{bottom:7vh}
+  .b5{top:12vh}
+  .lede{font-size:.98rem}
+}
+@media (max-height:560px) and (min-width:721px){ .cue, .chips{display:none} }
+
+/* ---------------- page below ---------------- */
+.wrap{max-width:1180px; margin:0 auto; padding-left:var(--gl); padding-right:var(--gr)}
+section.page{position:relative; padding-block:clamp(80px, 13vh, 150px)}
+.kicker{font-family:var(--f-mono); font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-hover)}
+.h2{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; font-size:clamp(2.6rem, 5.6vw, 4.8rem); line-height:.95; letter-spacing:-.02em; margin:10px 0 14px; text-wrap:balance}
+.p{color:var(--text-secondary); max-width:52ch; font-size:1.08rem; margin:0}
+
+/* menu */
+.menu-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap}
+.menu-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; margin-top:44px}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:10px 10px 18px; display:flex; flex-direction:column; gap:12px; box-shadow:0 30px 60px -40px rgba(58,31,16,.5)}
+.card .ph{border-radius:14px; overflow:hidden; aspect-ratio:4/5; background:var(--canvas)}
+.card .ph img{width:100%; height:100%; object-fit:cover; transition:transform 1.2s var(--ease-out)}
+.card:hover .ph img{transform:scale(1.05)}
+.card h3{margin:0 8px; font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 36; font-size:1.4rem; line-height:1.1}
+.card p{margin:0 8px; color:var(--text-secondary); font-size:.95rem}
+.card .tag{margin:auto 8px 0; font-family:var(--f-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-hover)}
+.menu-note{margin-top:22px; font-size:.9rem; color:var(--text-secondary)}
+/* entrance choreography */
+.reveal .r{opacity:0; transform:translateY(28px); transition:opacity .9s var(--ease-out), transform 1.1s var(--ease-out)}
+.reveal.in .r{opacity:1; transform:none}
+.reveal.in .r:nth-child(2){transition-delay:.09s} .reveal.in .r:nth-child(3){transition-delay:.18s} .reveal.in .r:nth-child(4){transition-delay:.27s}
+.reveal.done .r, .reveal.done .r:nth-child(2), .reveal.done .r:nth-child(3), .reveal.done .r:nth-child(4){transition-delay:0s!important}
+
+/* steam divider (self-drawing) */
+.steam-line{display:block; width:min(520px, 80%); height:60px; margin:0 auto; color:var(--accent-muted)}
+.steam-line path{stroke-dasharray:640; stroke-dashoffset:640; transition:stroke-dashoffset 2.4s var(--ease-io)}
+.in .steam-line path, .steam-line.in path{stroke-dashoffset:0}
+
+/* hold to pour */
+.pour{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(28px, 6vw, 80px); align-items:center}
+.cupwrap{display:grid; justify-items:center; gap:22px}
+.cup{width:min(320px, 70vw); aspect-ratio:1/1; overflow:visible}
+.hold{position:relative; overflow:hidden; user-select:none; -webkit-user-select:none; touch-action:none; min-width:220px}
+.hold .fill{position:absolute; inset:0; background:var(--accent-hover); transform-origin:left; transform:scaleX(var(--hp,0)); z-index:0}
+.hold span{position:relative; z-index:1}
+.ready{font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 48; font-size:1.5rem; opacity:0; transform:translateY(10px); transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); text-align:center}
+.poured .ready{opacity:1; transform:none}
+.cup-steam path{opacity:0; transition:opacity 1s var(--ease-out)}
+.poured .cup-steam path{opacity:.55; animation:rise 4.5s ease-in-out infinite}
+.poured .cup-steam path:nth-child(2){animation-delay:-1.5s} .poured .cup-steam path:nth-child(3){animation-delay:-3s}
+@keyframes rise{0%{transform:translateY(8px); opacity:0} 40%{opacity:.6} 100%{transform:translateY(-22px); opacity:0}}
+
+/* visit */
+.visit{background:var(--espresso); color:#f3e5d4; border-radius:32px; padding:clamp(32px, 6vw, 72px); display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:40px; align-items:center; position:relative; overflow:hidden}
+.visit .h2{color:#f6eadb}
+.visit .p{color:#e0c9b1}
+.visit dl{display:grid; gap:16px; margin:0}
+.visit dt{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-muted)}
+.visit dd{margin:4px 0 0; font-size:1.05rem}
+.visit .glow{position:absolute; right:-10%; top:-30%; width:60%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle, rgba(184,100,63,.45), transparent 65%); animation:pulse 9s ease-in-out infinite; animation-delay:-3s; pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.08)}}
+
+footer{padding-block:60px 50px}
+.foot{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:20px; border-top:1px solid var(--line); padding-top:28px; font-size:.9rem; color:var(--text-secondary)}
+.foot .groove{font-size:1.6rem}
+
+/* dust particles, whisper level */
+.dust{position:absolute; inset:0; overflow:hidden; pointer-events:none}
+.dust i{position:absolute; width:4px; height:4px; border-radius:50%; background:var(--accent-muted); opacity:.35; animation:float 14s linear infinite}
+@keyframes float{from{transform:translateY(0)} to{transform:translateY(-140px); opacity:0}}
+
+body.paused *, body.paused *::before, body.paused *::after{animation-play-state:paused!important}
+
+@media (max-width:760px){ .menu-grid{grid-template-columns:minmax(0,1fr); max-width:420px; margin-inline:auto} }
+@media (max-width:980px){ .pour, .visit{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:480px){ .menu-grid{gap:12px} .card h3{font-size:1.15rem} .card p{font-size:.86rem} }
+@media (pointer:coarse){ .btn{min-height:44px} .nav a{min-height:44px; display:inline-flex; align-items:center; justify-content:center} }
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation:none!important; transition:none!important; transition-delay:0s!important}
+  .reveal .r{opacity:1; transform:none}
+  .steam-line path{stroke-dashoffset:0}
+  .b1, .b2a, .b2b, .b3, .b5{translate:none}
+  @media (min-width:721px){ .b1, .b2a, .b3{top:auto; bottom:10vh} .b2b{top:16vh} .b5{left:0; right:0; margin:auto} }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="env" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="pill-wrap brand" href="#top" aria-label="Khemji Café home">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#2b1d15"/><path d="M32 46s-13-8-13-18a7 7 0 0 1 13-4 7 7 0 0 1 13 4c0 10-13 18-13 18z" fill="#b8643f"/></svg>
+    <b>KHEMJI<span>/</span>CAFÉ</b>
+  </a>
+  <nav class="pill-wrap nav" aria-label="Main">
+    <a href="#menu">Menu</a>
+    <a href="#visit">Visit</a>
+    <!-- OWNER: replace with the exact Google Maps link for the cafe -->
+    <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+  <!-- 1 GRIND -->
+  <section class="scene" id="s1" data-n="1" aria-label="Grind">
+    <div class="stage" id="top">
+      <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="band b1 fx-drift" data-a="0" data-b="1.01" data-first>
+        <span class="eyebrow">Khemji Café · Happy Hearts</span>
+        <h1 class="disp split">Grind</h1>
+        <p class="groove split" aria-hidden="true">fresh</p>
+        <p class="lede sub">Every cup starts as a whole bean. We grind it after you order, so nothing sits around going stale.</p>
+        <div class="row sub2">
+          <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn-ghost" href="#menu">See the menu</a>
+        </div>
+      </div>
+      <div class="cue" aria-hidden="true">Scroll<i></i></div>
+      <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>
+
+  <!-- 2 YOUR WAY -->
+  <section class="scene" id="s2" data-n="2" aria-label="Your way">
+    <div class="stage">
+      <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="band b2a fx-part" data-a=".04" data-b="1.01">
+        <span class="eyebrow">Ground to order</span>
+        <h2 class="disp split">Your</h2>
+        <p class="lede sub">Fine for a strong cup, coarse for a cold brew. Tell us how you like it.</p>
+      </div>
+      <div class="band b2b groove fx-drift" data-a=".1" data-b="1.01" aria-hidden="true"><span class="w" style="--th:0">w</span><span class="w" style="--th:.12">a</span><span class="w" style="--th:.24">y</span></div>
+      <div class="chips" aria-label="How we grind">
+        <span class="chip" data-at=".3">Ground fresh for every order</span>
+        <span class="chip" data-at=".45">Fine to coarse</span>
+        <span class="chip" data-at=".6">Never pre-ground</span>
+      </div>
+      <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>
+
+  <!-- 3 POUR -->
+  <section class="scene" id="s3" data-n="3" aria-label="Pour">
+    <div class="stage">
+      <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="band b3 fx-drift" data-a=".04" data-b="1.01">
+        <span class="eyebrow">Brewed slow</span>
+        <h2 class="disp split">Pour</h2>
+        <svg class="arrow" viewBox="0 0 260 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 14 C60 4 150 20 252 9 M240 3 252 9 242 17"/></svg>
+        <p class="groove split" aria-hidden="true">slow</p>
+        <p class="lede sub">Hot water, a slow spiral, and three quiet minutes. Your coffee is never rushed.</p>
+      </div>
+      <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>
+
+  <!-- 4 SIP -->
+  <section class="scene" id="s4" data-n="4" aria-label="Sip">
+    <div class="stage">
+      <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="band b4 dark fx-punch" data-a=".42" data-b="1.01">
+        <h2 class="disp split">Sip</h2>
+        <p class="lede sub">Smooth, fresh and never bitter. You can taste the difference on the first sip.</p>
+      </div>
+      <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>
+
+  <!-- 5 FIND YOUR CUP -->
+  <section class="scene" id="s5" data-n="5" aria-label="Find your cup">
+    <div class="stage">
+      <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="band b5 fx-rise" data-a=".05" data-b="1.01">
+        <svg class="orbit" viewBox="0 0 820 300" aria-hidden="true"><ellipse cx="410" cy="150" rx="396" ry="128" fill="none" stroke="#2b1d15" stroke-width="1.6"/></svg>
+        <svg class="spark" style="left:6%; top:8%" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+        <svg class="spark" style="right:8%; bottom:30%; width:16px; height:16px" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+        <h2 class="disp split">Find your cup</h2>
+        <div class="row sub2" style="justify-content:center">
+          <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn-ghost" href="#menu">See the menu</a>
+        </div>
+      </div>
+      <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="page" id="menu">
+    <div class="dust" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="menu-head reveal">
+        <div class="r">
+          <div class="kicker">On the menu</div>
+          <h2 class="h2">Made fresh, every single time.</h2>
+          <p class="p">Pick your favourite. We grind and brew it when you order, never before.</p>
+        </div>
+      </div>
+      <div class="menu-grid reveal">
+        <!-- OWNER: confirm drink names and lines -->
+        <article class="card r"><div class="ph"><img src="assets/menu-filter.jpg" alt="Filter coffee in a steel tumbler and davara" loading="lazy" width="800" height="1000"></div><h3>Filter Kaapi</h3><p>Strong, milky and frothy, served the old way.</p><span class="tag">Made fresh to order</span></article>
+        <article class="card r"><div class="ph"><img src="assets/menu-cappuccino.jpg" alt="Cappuccino with a heart in the foam" loading="lazy" width="800" height="1000"></div><h3>Cappuccino</h3><p>Smooth foam, a heart on top, and a happy start.</p><span class="tag">Made fresh to order</span></article>
+        <article class="card r"><div class="ph"><img src="assets/menu-coldbrew.jpg" alt="Cold brew over ice in a tall glass" loading="lazy" width="800" height="1000"></div><h3>Cold Brew</h3><p>Slow steeped, cold and clean. Great on a hot day.</p><span class="tag">Made fresh to order</span></article>
+      </div>
+      <p class="menu-note">Prices and the full menu are at the counter.</p>
+    </div>
+  </section>
+
+  <svg class="steam-line" viewBox="0 0 520 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 30 C60 4 100 56 160 30 S260 4 320 30 S420 56 516 30"/></svg>
+
+  <!-- HOLD TO POUR -->
+  <section class="page" id="pour-game">
+    <div class="wrap pour reveal">
+      <div class="r">
+        <div class="kicker">Try it</div>
+        <h2 class="h2">Pour yourself one.</h2>
+        <p class="p">Press and hold the button. Good coffee takes a moment, so don't let go too soon.</p>
+      </div>
+      <div class="cupwrap r" id="cupwrap">
+        <svg class="cup" viewBox="0 0 300 300" aria-hidden="true">
+          <defs>
+            <clipPath id="cupIn"><path d="M62 104 H238 L226 236 Q222 262 196 264 H104 Q78 262 74 236 Z"/></clipPath>
+            <linearGradient id="cof" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8a5532"/><stop offset=".1" stop-color="#4a2410"/><stop offset="1" stop-color="#1f0e05"/></linearGradient>
+            <linearGradient id="glaze" x1="0" x2="1"><stop offset="0" stop-color="#d6c7b2"/><stop offset=".35" stop-color="#f5eee3"/><stop offset="1" stop-color="#cdbda7"/></linearGradient>
+          </defs>
+          <g class="cup-steam" stroke="#b08a6c" stroke-width="6" stroke-linecap="round" fill="none"><path d="M120 86 q-12 -20 4 -40"/><path d="M150 86 q-12 -24 4 -48"/><path d="M180 86 q-12 -20 4 -40"/></g>
+          <path d="M236 132 Q284 132 284 178 Q284 226 226 228" stroke="#d6c7b2" stroke-width="20" fill="none" stroke-linecap="round"/>
+          <path d="M58 98 H242 L230 238 Q226 270 196 272 H104 Q74 270 70 238 Z" fill="url(#glaze)"/>
+          <g clip-path="url(#cupIn)"><rect id="level" x="40" y="104" width="220" height="200" fill="url(#cof)" style="transform:translateY(calc((1 - var(--lv,0)) * 165px))"/></g>
+          <path d="M58 98 H242" stroke="#c9b9a2" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <button class="btn btn-accent hold" id="hold" type="button" aria-describedby="hold-help"><span class="fill"></span><span id="hold-label">Hold to pour</span></button>
+        <span class="sr" id="hold-help">Press and hold to fill the cup. Keyboard: hold the space bar.</span>
+        <div class="ready" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="page" id="visit">
+    <div class="wrap">
+      <div class="visit reveal">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="r">
+          <div class="kicker" style="color:var(--accent-muted)">Visit us</div>
+          <h2 class="h2">Come say hi.</h2>
+          <p class="p">Pull up a chair, tell us how you like your coffee, and we'll take it from there.</p>
+          <div class="row" style="margin-top:26px">
+            <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+        <dl class="r">
+          <!-- OWNER: fill in the real address and opening hours -->
+          <div><dt>Find us</dt><dd>Khemji Café, on Google Maps</dd></div>
+          <div><dt>Open</dt><dd>See today's hours on Google Maps</dd></div>
+          <div><dt>Good to know</dt><dd>Every drink is made after you order.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span class="groove">Happy Hearts</span>
+    <span>© 2026 Khemji Café</span>
+    <!-- OWNER: add the Instagram handle -->
+  </div>
+</footer>
+
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script defer>
+addEventListener('DOMContentLoaded', () => {
+'use strict';
+/* ---------- the five gates, identical to the CSS ---------- */
+const GATES = [
+  '(max-width: 720px)',
+  '(orientation: portrait) and (max-width: 1024px)',
+  '(orientation: portrait) and (pointer: coarse)',
+  '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
+  '(prefers-reduced-motion: reduce)'
+];
+const MQLS = GATES.map(q => matchMedia(q));
+const RM = matchMedia('(prefers-reduced-motion: reduce)');
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const smooth = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
+
+/* ---------- split headline text once, seeded ---------- */
+function rng(seed){ let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
+const rand = rng(7);
+document.querySelectorAll('.split').forEach(el => {
+  const text = el.textContent.trim();
+  const words = text.split(/\s+/);
+  el.textContent = '';
+  const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = text; el.appendChild(sr);
+  const vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true');
+  words.forEach((w, i) => {
+    const s = document.createElement('span'); s.className = 'w'; s.textContent = w;
+    s.style.setProperty('--th', (i / Math.max(1, words.length) * .3 + rand() * .05).toFixed(3));
+    s.style.setProperty('--dir', i % 2 ? -1 : 1);
+    vis.appendChild(s); if (i < words.length - 1) vis.appendChild(document.createTextNode(' '));
+  });
+  el.appendChild(vis);
+});
+
+/* ---------- scenes ---------- */
+const BYTES = { 1: 3315369, 2: 3037869, 3: 4374891, 4: 6864520, 5: 3586347 }; // fallback when Content-Length is missing
+const scenes = [...document.querySelectorAll('.scene')].map(el => {
+  const n = +el.dataset.n, stage = el.querySelector('.stage');
+  return { n, el, stage, video: stage.querySelector('video'), ring: stage.querySelector('.ring'),
+    bands: [...stage.querySelectorAll('.band')].map(b => ({ el: b, a: +b.dataset.a, b: +b.dataset.b, ramp: +b.dataset.ramp || 0, first: b.hasAttribute('data-first'), op: -1, k: -1 })),
+    chips: [...stage.querySelectorAll('.chip')].map(c => ({ el: c, at: +c.dataset.at, o: -1 })),
+    target: 0, shown: 0, busy: false, pending: null, on: false, ready: false, started: false };
+});
+
+function progress(s){ const r = s.el.getBoundingClientRect(); const range = r.height - innerHeight; return range > 0 ? clamp(-r.top / range, 0, 1) : 0; }
+
+/* gated seeks, deadlock-safe */
+function requestSeek(s, t){
+  const v = s.video; if (!s.ready || !v.duration) return;
+  t = clamp(t, 0, v.duration - 0.04);
+  if (s.busy){ s.pending = t; return; }
+  if (Math.abs(v.currentTime - t) < 0.008) return;
+  s.busy = true; v.currentTime = t;
+}
+scenes.forEach(s => {
+  s.video.addEventListener('seeked', () => { s.busy = false; if (s.pending !== null){ const t = s.pending; s.pending = null; requestSeek(s, t); } });
+  s.video.addEventListener('error', () => { s.busy = false; s.pending = null; s.stage.classList.add('video-failed'); });
+});
+
+/* captions: delta-gated writes */
+let loadK = 0;
+function updateCaptions(s, p){
+  for (const b of s.bands){
+    const f = Math.min(0.02, (b.b - b.a) / 3);
+    let op = b.first ? 1 : smooth(p, b.a, b.a + f);
+    if (b.b <= 1) op *= 1 - smooth(p, b.b - f, b.b);
+    const ramp = b.ramp || Math.min(0.12, (b.b - b.a) * 0.35);
+    let k = clamp((p - b.a) / ramp, 0, 1);
+    if (b.first) k = Math.max(k, loadK);
+    if (Math.abs(op - b.op) > 0.004){ b.op = op; b.el.style.opacity = op.toFixed(3); }
+    if (Math.abs(k - b.k) > 0.008 || (k === 1 && b.k !== 1)){ b.k = k; b.el.style.setProperty('--k', k.toFixed(3)); }
+  }
+  for (const c of s.chips){
+    const o = smooth(p, c.at, c.at + 0.06);
+    if (Math.abs(o - c.o) > 0.008 || (o === 1 && c.o !== 1)){ c.o = o; c.el.style.setProperty('--o', o.toFixed(3)); }
+  }
+}
+
+/* ---------- lerp loop that rests ---------- */
+let rafId = null, last = 0;
+function tick(now){
+  const dt = Math.min(100, now - (last || now)); last = now;
+  const a = 1 - Math.pow(1 - 0.14, dt / 16.667);
+  let moving = false;
+  if (loadK < 1){ loadK = Math.min(1, loadK + dt / 1400); moving = true; }
+  for (const s of scenes){
+    if (!s.on) continue;
+    s.shown += (s.target - s.shown) * a;
+    if (Math.abs(s.target - s.shown) < 0.0005) s.shown = s.target; else moving = true;
+    if (s.ready) requestSeek(s, s.shown * s.video.duration);
+    updateCaptions(s, s.shown);
+  }
+  if (moving) rafId = requestAnimationFrame(tick); else { rafId = null; last = 0; }
+}
+function kick(){ if (rafId === null) rafId = requestAnimationFrame(tick); }
+function onScroll(){ for (const s of scenes) if (s.on) s.target = progress(s); kick(); }
+
+const io = new IntersectionObserver(es => es.forEach(e => {
+  const s = scenes.find(x => x.el === e.target); s.on = e.isIntersecting;
+  if (s.on){ s.target = s.shown = progress(s); kick(); }
+}), { rootMargin: '10% 0px' });
+
+/* ---------- streamed Blob loader with ring, one scene at a time ---------- */
+const queue = [];
+function poster(s){ s.stage.style.backgroundImage = `url("assets/s${s.n}-poster.jpg")`; }
+async function loadScene(s){
+  const ctrl = new AbortController();
+  let watchdog = setTimeout(() => ctrl.abort(), 20000);
+  const res = await fetch(`assets/s${s.n}.mp4`, { signal: ctrl.signal, priority: 'low' });
+  if (!res.ok) throw new Error('video ' + res.status);
+  const total = Number(res.headers.get('Content-Length')) || BYTES[s.n];
+  const reader = res.body.getReader(); const chunks = []; let got = 0, lastRing = 0;
+  for (;;){
+    const { done, value } = await reader.read(); if (done) break;
+    clearTimeout(watchdog); watchdog = setTimeout(() => ctrl.abort(), 20000);
+    chunks.push(value); got += value.length;
+    const frac = Math.min(1, got / total), now = performance.now();
+    if (now - lastRing > 100 || frac === 1){ lastRing = now; s.ring.style.setProperty('--ld', Math.round(126 * (1 - frac))); }
+  }
+  clearTimeout(watchdog); s.ring.style.setProperty('--ld', 0);
+  s.video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+  s.video.load();
+  await new Promise((ok, bad) => { s.video.addEventListener('loadeddata', ok, { once: true }); s.video.addEventListener('error', bad, { once: true }); });
+  s.ready = true; s.stage.classList.add('video-ready');
+  requestSeek(s, s.shown * s.video.duration);
+}
+let loading = false;
+async function pump(){
+  if (loading) return; loading = true;
+  while (queue.length){ const s = queue.shift(); try { await loadScene(s); } catch(e){ s.stage.classList.add('video-failed'); } }
+  loading = false;
+}
+let inited = false;
+function initOnce(){
+  if (inited) return; inited = true;
+  scenes.forEach(poster);
+  const first = new Image(); let go = false;
+  const start = () => { if (go) return; go = true; scenes.forEach(s => queue.push(s)); pump(); };
+  first.onload = first.onerror = start; first.src = 'assets/s1-poster.jpg'; setTimeout(start, 4000);
+}
+
+/* ---------- smooth wheel scrolling (Lenis), resting when idle ---------- */
+let lenis = null, lrId = null;
+function lenisLoop(t){ lenis.raf(t); lrId = lenis.isScrolling ? requestAnimationFrame(lenisLoop) : null; }
+function wakeLenis(){ if (lenis && lrId === null) lrId = requestAnimationFrame(lenisLoop); }
+function startLenis(){
+  if (lenis || !window.Lenis) return;
+  lenis = new Lenis({ duration: 1.35, easing: t => 1 - Math.pow(1 - t, 4), smoothWheel: true, wheelMultiplier: .85, autoRaf: false });
+  ['wheel', 'keydown', 'pointerdown'].forEach(ev => addEventListener(ev, wakeLenis, { passive: true }));
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : document.querySelector(id); if (t === null) return;
+    e.preventDefault(); lenis.scrollTo(t, { duration: 1.8 }); wakeLenis();
+  }));
+}
+function stopLenis(){ if (!lenis) return; lenis.destroy(); lenis = null; if (lrId) cancelAnimationFrame(lrId); lrId = null; }
+
+/* ---------- arm / disarm, decided live ---------- */
+let scrubOn = false;
+function enableScrub(){
+  if (scrubOn) return; scrubOn = true;
+  initOnce(); startLenis();
+  scenes.forEach(s => { io.observe(s.el); s.bands.forEach(b => { b.op = -1; b.k = -1; }); s.chips.forEach(c => c.o = -1); });
+  addEventListener('scroll', onScroll, { passive: true });
+  unpin(); onScroll();
+}
+function disableScrub(){
+  if (!scrubOn) return; scrubOn = false;
+  removeEventListener('scroll', onScroll); io.disconnect(); stopLenis();
+  if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+  scenes.forEach(s => s.on = false);
+}
+function pinFinal(){
+  scenes.forEach(s => { s.bands.forEach(b => { b.el.style.opacity = 1; b.el.style.setProperty('--k', 1); }); s.chips.forEach(c => c.el.style.setProperty('--o', 1)); });
+  finishPour(true);
+}
+function unpin(){ scenes.forEach(s => { s.bands.forEach(b => { b.el.style.opacity = ''; b.el.style.removeProperty('--k'); }); s.chips.forEach(c => c.el.style.removeProperty('--o')); }); }
+function applyMode(){ if (MQLS.some(m => m.matches)){ disableScrub(); pinFinal(); } else enableScrub(); }
+MQLS.forEach(m => m.addEventListener('change', applyMode));
+
+/* ---------- page entrances ---------- */
+const rio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; const el = e.target; el.classList.add('in'); rio.unobserve(el);
+  setTimeout(() => el.classList.add('done'), 1600);
+}), { threshold: .18 });
+document.querySelectorAll('.reveal, .steam-line').forEach(el => rio.observe(el));
+
+/* dust particles in the menu, seeded */
+const dust = document.querySelector('.dust'); const dr = rng(3);
+for (let i = 0; i < 14; i++){ const d = document.createElement('i'); d.style.left = (dr()*100).toFixed(1) + '%'; d.style.top = (40 + dr()*60).toFixed(1) + '%'; d.style.animationDelay = (-dr()*14).toFixed(2) + 's'; d.style.animationDuration = (12 + dr()*8).toFixed(1) + 's'; dust.appendChild(d); }
+
+/* ---------- hold to pour ---------- */
+const hold = document.getElementById('hold'), wrap = document.getElementById('cupwrap'), cup = wrap.querySelector('.cup');
+const readyEl = wrap.querySelector('.ready'), label = document.getElementById('hold-label');
+let lv = 0, holding = false, hRaf = null, hLast = 0, poured = false;
+function setLv(v){ lv = v; cup.style.setProperty('--lv', v.toFixed(3)); hold.style.setProperty('--hp', v.toFixed(3)); }
+function hTick(now){
+  const dt = Math.min(100, now - (hLast || now)); hLast = now;
+  if (holding) setLv(Math.min(1, lv + dt / 1800)); else setLv(Math.max(0, lv - dt / 2600));
+  if (lv >= 1){ finishPour(false); hRaf = null; hLast = 0; return; }
+  if (holding || lv > 0) hRaf = requestAnimationFrame(hTick); else { hRaf = null; hLast = 0; }
+}
+function finishPour(instant){
+  if (poured) return; poured = true; holding = false; setLv(1); wrap.classList.add('poured');
+  label.textContent = 'Poured';
+  readyEl.innerHTML = 'Your cup is ready. Come get it.<br><a class="btn btn-accent maps" style="margin-top:14px; font-family:var(--f-body); font-size:.92rem" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>';
+}
+const down = e => { if (poured) return; if (e.type === 'keydown' && e.key !== ' ' && e.key !== 'Enter') return; if (e.repeat) return; e.preventDefault(); holding = true; if (!hRaf) hRaf = requestAnimationFrame(hTick); };
+const up = () => { holding = false; if (!hRaf && !poured && lv > 0) hRaf = requestAnimationFrame(hTick); };
+hold.addEventListener('pointerdown', e => { hold.setPointerCapture(e.pointerId); down(e); });
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach(ev => hold.addEventListener(ev, up));
+hold.addEventListener('keydown', down); hold.addEventListener('keyup', up);
+hold.addEventListener('contextmenu', e => e.preventDefault());
+
+RM.addEventListener('change', e => { if (e.matches) pinFinal(); });
+document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
+
+applyMode();
+if (RM.matches) pinFinal();
+});
+</script>
+</body>
+</html>
