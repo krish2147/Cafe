@@ -14,17 +14,22 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232b1d15'/%3E%3Cpath d='M32 46s-13-8-13-18a7 7 0 0 1 13-4 7 7 0 0 1 13 4c0 10-13 18-13 18z' fill='%23b8643f'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Fraunces:opsz,wght,SOFT,WONK@9..144,800..900,100,1&family=Outfit:wght@400;500;600&family=Shrikhand&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght,SOFT,WONK@9..144,800..900,100,1&family=Outfit:wght@400;500;600&family=Shrikhand&display=swap">
 <style>
 :root{
   --canvas:#efe6da; --panel:#f8f1e7; --accent:#b8643f; --accent-hover:#9c4f2e; --accent-muted:#d9a586;
-  --text-secondary:#5f4b3d; --text-primary:#2b1d15; --espresso:#1f120a; --line:rgba(43,29,21,.16); --line-strong:rgba(43,29,21,.42);
+  --echo:#c4794f;                       /* the big terracotta word */
+  --ink:#241711;                        /* near-black brown, nav + pills */
+  --text-secondary:#5f4b3d; --text-primary:#2b1d15; --espresso:#1f120a;
+  --line:rgba(43,29,21,.16); --line-strong:rgba(43,29,21,.42);
   --f-display:"Fraunces", Georgia, serif; --f-groove:"Shrikhand", "Fraunces", Georgia, serif;
   --f-body:"Outfit", "Helvetica Neue", Arial, sans-serif; --f-mono:"DM Mono", ui-monospace, Menlo, monospace;
   --ease-out:cubic-bezier(.16,1,.3,1); --ease-io:cubic-bezier(.65,0,.35,1);
-  --lshadow:0 1px 1px rgba(246,239,229,.9), 0 2px 14px rgba(246,239,229,.85), 0 8px 40px rgba(246,239,229,.7);
+  --lshadow:0 1px 1px rgba(246,239,229,.75), 0 2px 16px rgba(246,239,229,.6);
   --dshadow:0 1px 2px rgba(20,10,4,.95), 0 3px 12px rgba(20,10,4,.78), 0 10px 44px rgba(20,10,4,.8);
-  --gl:max(18px, env(safe-area-inset-left,0px)); --gr:max(18px, env(safe-area-inset-right,0px));
+  --gl:max(22px, env(safe-area-inset-left,0px)); --gr:max(22px, env(safe-area-inset-right,0px));
+  --glass:rgba(250,245,237,.62); --glass-line:rgba(255,252,247,.75);
+  --glass-shadow:0 26px 60px -28px rgba(58,31,16,.5), 0 2px 10px -4px rgba(58,31,16,.18);
 }
 *{box-sizing:border-box}
 html{overflow-x:hidden; overflow-x:clip; background:var(--canvas)}
@@ -35,34 +40,48 @@ a{color:inherit}
 button{font:inherit; color:inherit; cursor:pointer}
 :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:8px}
 .sr{position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
-.skip{position:fixed; left:12px; top:-60px; z-index:100; background:var(--text-primary); color:var(--panel); padding:10px 14px; border-radius:10px; transition:top .3s var(--ease-out)}
+.skip{position:fixed; left:12px; top:-60px; z-index:100; background:var(--ink); color:var(--panel); padding:10px 14px; border-radius:10px; transition:top .3s var(--ease-out)}
 .skip:focus{top:12px}
 
 /* environment layer: slow warm glow + grain behind everything */
 .env{position:fixed; inset:-20%; z-index:-1; pointer-events:none;
   background:radial-gradient(40% 35% at 30% 30%, rgba(217,165,134,.28), transparent 70%), radial-gradient(35% 30% at 75% 70%, rgba(184,100,63,.14), transparent 70%);
   animation:drift 70s ease-in-out infinite alternate; animation-delay:-20s}
-.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.06; mix-blend-mode:multiply;
+.grain{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.055; mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 @keyframes drift{from{transform:translate3d(-3%,-2%,0) rotate(0)} to{transform:translate3d(3%,2%,0) rotate(8deg)}}
 
-/* header */
-.top{position:fixed; z-index:50; top:calc(env(safe-area-inset-top,0px) + 14px); left:var(--gl); right:var(--gr); display:flex; justify-content:space-between; align-items:center; gap:12px; pointer-events:none}
+/* ---------------- top chrome ---------------- */
+.top{position:fixed; z-index:50; top:0; left:0; right:0; padding:18px var(--gr) 18px var(--gl);
+  display:flex; justify-content:space-between; align-items:center; gap:14px; pointer-events:none;
+  transition:background .5s var(--ease-out), backdrop-filter .5s var(--ease-out), box-shadow .5s var(--ease-out)}
 .top > *{pointer-events:auto}
-.pill-wrap{display:flex; align-items:center; gap:4px; padding:6px; border-radius:999px; background:rgba(246,239,229,.72); backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); border:1px solid var(--line)}
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; padding:6px 14px 6px 8px}
-.brand svg{width:26px; height:26px}
-.brand b{font-weight:600; letter-spacing:.08em; font-size:.92rem}
-.brand span{font-weight:400; opacity:.55; margin:0 .3em}
-.nav a{text-decoration:none; padding:8px 14px; border-radius:999px; font-size:.9rem; transition:background .3s var(--ease-out)}
-.nav a:hover{background:rgba(43,29,21,.07)}
-.btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; border:0; border-radius:999px; padding:13px 22px; font-weight:600; font-size:.92rem; text-decoration:none; transition:transform .45s var(--ease-out), background .3s var(--ease-out), box-shadow .45s var(--ease-out)}
-.btn-accent{background:var(--accent); color:#fff8f0; box-shadow:0 10px 30px -12px rgba(156,79,46,.7)}
-.btn-accent:hover{background:var(--accent-hover); transform:translateY(-2px)}
-.btn-ghost{background:rgba(246,239,229,.6); border:1.5px solid var(--line-strong); color:var(--text-primary)}
-.btn-ghost:hover{background:var(--panel); transform:translateY(-2px)}
-.nav .btn{padding:9px 16px; font-size:.86rem}
-.btn svg{width:16px; height:16px}
+.top.stuck{background:rgba(244,237,228,.74); backdrop-filter:blur(16px) saturate(1.25); -webkit-backdrop-filter:blur(16px) saturate(1.25); box-shadow:0 1px 0 var(--line)}
+.wordmark{display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:600; letter-spacing:.1em; font-size:.92rem; color:var(--ink)}
+.wordmark svg{width:22px; height:22px; flex:none}
+.wordmark i{font-style:normal; font-weight:400; opacity:.45; margin:0 .15em}
+.wordmark em{font-style:normal; font-weight:400; opacity:.72}
+.navr{display:flex; align-items:center; gap:4px}
+.navr a:not(.pill){text-decoration:none; padding:9px 15px; border-radius:999px; font-size:.9rem; color:var(--ink); transition:background .3s var(--ease-out)}
+.navr a:not(.pill):hover{background:rgba(43,29,21,.08)}
+.pill{display:inline-flex; align-items:center; justify-content:center; gap:9px; border:0; border-radius:999px; padding:11px 20px; font-weight:500; font-size:.88rem; text-decoration:none;
+  background:var(--ink); color:#f6ece0; transition:transform .45s var(--ease-out), background .3s var(--ease-out), box-shadow .45s var(--ease-out);
+  box-shadow:0 12px 26px -16px rgba(36,23,17,.9)}
+.pill:hover{background:#3a271c; transform:translateY(-2px)}
+.pill svg{width:15px; height:15px}
+.iconbtn{display:inline-grid; place-items:center; width:40px; height:40px; border-radius:999px; border:1px solid transparent; background:transparent; color:var(--ink); transition:background .3s var(--ease-out), border-color .3s var(--ease-out)}
+.iconbtn:hover{background:rgba(43,29,21,.08)}
+.iconbtn svg{width:19px; height:19px}
+#navtoggle{display:none}
+
+/* mobile sheet */
+.sheet{position:fixed; inset:0; z-index:55; display:none; background:rgba(28,17,10,.42); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px)}
+.sheet.open{display:block}
+.sheet-in{position:absolute; top:12px; left:12px; right:12px; background:var(--panel); border-radius:24px; padding:14px 18px 18px; display:grid; gap:4px; box-shadow:0 40px 80px -30px rgba(31,18,10,.6)}
+.sheet-in a{text-decoration:none; padding:14px 16px; border-radius:14px; font-size:1.05rem; display:flex; justify-content:space-between; align-items:center}
+.sheet-in a:hover{background:rgba(43,29,21,.06)}
+.sheet-in .pill{margin-top:8px; justify-content:center; padding:15px 20px; font-size:.98rem}
+.sheet-close{justify-self:end; margin-bottom:2px}
 
 /* ---------------- scenes ---------------- */
 .scene{position:relative; height:330vh}
@@ -70,26 +89,37 @@ button{font:inherit; color:inherit; cursor:pointer}
 .stage video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s var(--ease-out); will-change:transform; transform:translateZ(0)}
 .stage.video-ready video{opacity:1}
 .stage.video-failed video{display:none}
-.wash{position:absolute; inset:0; pointer-events:none}
-.ring{position:absolute; z-index:6; right:calc(var(--gr) + 6px); bottom:22px; width:34px; height:34px; color:var(--accent); transform:rotate(-90deg); transition:opacity .6s var(--ease-out)}
+.ring{position:absolute; z-index:6; right:calc(var(--gr) + 6px); bottom:92px; width:30px; height:30px; color:var(--accent); transform:rotate(-90deg); transition:opacity .6s var(--ease-out)}
 .ring circle:first-child{stroke:var(--line)}
 .stage.video-ready .ring, .stage.video-failed .ring{opacity:0}
 
-/* caption bands */
-.band{position:absolute; z-index:4; text-shadow:var(--lshadow); --k:0; will-change:opacity}
-.band::before{content:""; position:absolute; inset:-18% -14%; z-index:-1; pointer-events:none; opacity:calc(.3 + .7*var(--k,1));
-  background:radial-gradient(ellipse 60% 58% at 50% 50%, rgba(243,235,224,.78) 0%, rgba(243,235,224,.5) 48%, rgba(243,235,224,0) 76%)}
-.band.dark{text-shadow:var(--dshadow); color:#f6eadb}
-.band.dark::before{background:radial-gradient(ellipse 62% 60% at 50% 50%, rgba(18,9,4,.62) 0%, rgba(18,9,4,.4) 46%, rgba(18,9,4,0) 76%)}
-.band .btn{text-shadow:none}
-.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-secondary)}
-.dark .eyebrow{color:#e5cdb4}
-.stage .disp{text-transform:uppercase}
-.disp{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; letter-spacing:-.02em; line-height:.86; margin:0}
-.groove{font-family:var(--f-groove); font-weight:400; color:var(--accent); line-height:.95; margin:0}
-.lede{margin:0; max-width:34ch; font-size:1.06rem; color:var(--text-secondary)}
+/* a band is any JS-animated layer: it gets opacity + --k */
+.band{position:absolute; z-index:4; --k:0; will-change:opacity}
+.band.scrim::before{content:""; position:absolute; inset:-22% -16%; z-index:-1; pointer-events:none; opacity:calc(.25 + .75*var(--k,1));
+  background:radial-gradient(ellipse 62% 60% at 40% 50%, rgba(243,235,224,.62) 0%, rgba(243,235,224,.34) 48%, rgba(243,235,224,0) 78%)}
+.band.dark{color:#f6eadb; text-shadow:var(--dshadow)}
+.band.dark.scrim::before{background:radial-gradient(ellipse 64% 62% at 40% 50%, rgba(18,9,4,.6) 0%, rgba(18,9,4,.36) 46%, rgba(18,9,4,0) 78%)}
+
+/* ---- the big terracotta echo word, sitting *behind* the product ----
+   multiply keeps it bright on the cream backdrop and lets the dark
+   subject punch straight through it, which reads as real depth. */
+.echo{z-index:2; pointer-events:none; user-select:none; font-family:var(--f-groove); font-weight:400;
+  color:var(--echo); line-height:.82; letter-spacing:-.01em; margin:0; mix-blend-mode:multiply; white-space:nowrap}
+.echo.lift{mix-blend-mode:screen; color:#7d4f33}
+
+.crumb{display:inline-flex; align-items:center; gap:8px; font-family:var(--f-mono); font-size:.7rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--text-secondary)}
+.crumb i{font-style:normal; opacity:.5}
+.dark .crumb{color:#e2cab1}
+.disp{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; letter-spacing:-.025em; line-height:.84; margin:0; text-transform:uppercase; color:var(--ink)}
+.dark .disp{color:#f7ecdd}
+.lede{margin:0; max-width:32ch; font-size:1rem; color:var(--text-secondary); line-height:1.6}
 .dark .lede{color:#f0dfcc}
-.row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.ctarow{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.circ{display:inline-grid; place-items:center; width:46px; height:46px; border-radius:999px; border:1.4px solid var(--line-strong); color:var(--ink); text-decoration:none; transition:background .35s var(--ease-out), transform .45s var(--ease-out), border-color .35s var(--ease-out)}
+.circ:hover{background:var(--ink); color:#f6ece0; border-color:var(--ink); transform:translateY(-2px)}
+.circ svg{width:17px; height:17px}
+.dark .circ{border-color:rgba(246,234,219,.5); color:#f6eadb}
+.dark .circ:hover{background:#f6eadb; color:var(--ink); border-color:#f6eadb}
 
 /* word choreography, all transform + opacity off --k */
 .w{display:inline-block; --kc:clamp(0, (var(--k,0) - var(--th,0)) * 2.8, 1); opacity:var(--kc)}
@@ -97,39 +127,82 @@ button{font:inherit; color:inherit; cursor:pointer}
 .fx-rise .w{transform:translateY(calc((1 - var(--kc)) * 0.6em))}
 .fx-punch .w{--ks:clamp(0, (var(--k,0) - var(--th,0) - .12) * 2.6, 1); transform:scale(calc(.6 + .64 * var(--kc) - .24 * var(--ks)))}
 .fx-part .w{transform:translateX(calc((1 - var(--kc)) * var(--dir, 1) * -0.5em))}
-.sub{--ks:clamp(0, (var(--k,0) - .5) * 3.2, 1); opacity:var(--ks); transform:translateY(calc((1 - var(--ks)) * 14px))}
-.sub2{--kb:clamp(0, (var(--k,0) - .7) * 4, 1); opacity:var(--kb); transform:translateY(calc((1 - var(--kb)) * 14px))}
+.sub{--ks:clamp(0, (var(--k,0) - .45) * 3.2, 1); opacity:var(--ks); transform:translateY(calc((1 - var(--ks)) * 14px))}
+.sub2{--kb:clamp(0, (var(--k,0) - .62) * 4, 1); opacity:var(--kb); transform:translateY(calc((1 - var(--kb)) * 14px))}
+/* the echo drifts sideways a touch as you scroll, so it feels anchored to the set */
+.echo{transform:translate3d(calc(var(--k,0) * var(--drift, -2vw) - var(--drift, -2vw)), 0, 0)}
 
-/* scene 1 */
-.b1{left:max(var(--gl), 6vw); top:50%; translate:0 -46%; display:grid; gap:18px}
-.b1 h1{font-size:clamp(4.6rem, 12.5vw, 12.5rem); text-transform:uppercase}
-.b1 .groove{font-size:clamp(3rem, 7vw, 7rem); margin-top:-.25em; margin-left:.12em}
-/* scene 2 */
-.b2a{left:max(var(--gl), 5vw); top:50%; translate:0 -50%; display:grid; gap:16px; max-width:min(40vw, 520px)}
-.b2a .disp{font-size:clamp(4.6rem, 13vw, 13rem)}
-.b2b{right:max(var(--gr), 6vw); top:50%; translate:0 -50%; display:flex; flex-direction:column; align-items:center; font-size:clamp(3rem, 7vw, 6.6rem)}
-.chips{position:absolute; z-index:5; right:max(var(--gr), 5vw); bottom:9vh; display:grid; gap:8px; justify-items:end}
-.chip{font-family:var(--f-mono); font-size:.78rem; letter-spacing:.04em; padding:9px 14px; border-radius:999px; background:rgba(248,241,231,.86); border:1px solid var(--line); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); display:inline-flex; gap:8px; align-items:center; opacity:var(--o,0); transform:translateX(calc((1 - var(--o,0)) * 18px))}
-.chip::before{content:""; width:8px; height:8px; border-radius:2px; transform:rotate(45deg); background:var(--accent)}
-/* scene 3 */
-.b3{left:max(var(--gl), 15vw); top:12vh; display:grid; gap:10px}
-.b3 h2{font-size:clamp(3.6rem, 8.4vw, 8.6rem)}
-.b3 .groove{font-size:clamp(2.8rem, 6vw, 6.2rem); margin-top:-.3em}
-.arrow{width:min(240px, 44vw); height:22px; color:var(--text-primary)}
+/* ---- scene 1 · GRIND ---- */
+.c1{left:var(--gl); top:50%; translate:0 -50%; display:grid; gap:20px; max-width:min(31vw, 390px)}
+.c1 .disp{font-size:clamp(4.4rem, 9.6vw, 9.4rem)}
+.e1{right:3vw; top:50%; translate:0 -56%; font-size:clamp(7rem, 19vw, 19rem)}
+/* ---- scene 2 · YOUR WAY ---- */
+.c2{left:var(--gl); top:19vh; display:grid; gap:16px; max-width:min(28vw, 340px)}
+.e2{left:50%; top:50%; translate:-50% -50%; font-size:clamp(6rem, 17.5vw, 17.5rem); letter-spacing:-.02em}
+.chips{position:absolute; z-index:5; right:var(--gr); bottom:92px; display:grid; gap:8px; justify-items:end}
+.chip{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.03em; padding:9px 15px; border-radius:999px; background:var(--glass); border:1px solid var(--glass-line); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:var(--glass-shadow); display:inline-flex; gap:9px; align-items:center; opacity:var(--o,0); transform:translateX(calc((1 - var(--o,0)) * 18px))}
+.chip::before{content:""; width:7px; height:7px; border-radius:2px; transform:rotate(45deg); background:var(--accent)}
+/* ---- scene 3 · POUR ---- */
+.c3{left:var(--gl); top:13vh; display:grid; gap:14px; max-width:min(34vw, 420px)}
+.c3b{left:var(--gl); bottom:13vh; max-width:min(30vw, 380px)}
+.c3 .disp{font-size:clamp(3.6rem, 7.6vw, 7.4rem)}
+.arrow{width:min(230px, 40vw); height:20px; color:var(--ink)}
 .arrow path{stroke-dasharray:300; stroke-dashoffset:calc(300 - 300 * var(--k,0))}
-/* scene 4 */
-.b4{left:max(var(--gl), 6vw); bottom:9vh; display:grid; gap:10px}
-.b4 h2{font-size:clamp(6rem, 22vw, 22rem); color:#f6eadb; line-height:.8}
-.b4 .lede{max-width:30ch}
-/* scene 5 */
-.b5{left:50%; top:13vh; translate:-50% 0; text-align:center; display:grid; justify-items:center; gap:18px; width:min(92vw, 900px)}
-.b5 h2{font-size:clamp(3rem, 7.4vw, 7.2rem); text-wrap:balance}
-.orbit{position:absolute; left:50%; top:38%; width:min(130%, 980px); translate:-50% -50%; rotate:-10deg; z-index:-1; overflow:visible; pointer-events:none}
-.orbit ellipse{stroke-dasharray:2200; stroke-dashoffset:calc(2200 - 2200 * var(--k,0))}
-.spark{position:absolute; width:22px; height:22px; color:var(--text-primary); opacity:var(--kb,0); transform:scale(var(--kb,0)) rotate(calc(var(--kb,0) * 90deg))}
+.e3{left:calc(var(--gl) - .04em); top:27vh; font-size:clamp(5.5rem, 15vw, 15rem)}
+/* ---- scene 4 · SIP ---- */
+.c4{left:var(--gl); bottom:12vh; display:grid; gap:12px; max-width:min(36vw, 430px)}
+.c4 .disp{font-size:clamp(6rem, 17vw, 17rem); line-height:.78}
+.e4{left:var(--gl); top:15vh; font-size:clamp(3.4rem, 8.5vw, 8.5rem); opacity:.42}
+/* ---- scene 5 · FIND YOUR CUP ---- */
+.c5{left:50%; top:12vh; translate:-50% 0; text-align:center; display:grid; justify-items:center; gap:16px; width:min(92vw, 820px)}
+.c5 .ctarow{margin-top:clamp(58px, 8.4vh, 94px)}
+.c5 .disp{font-size:clamp(2.9rem, 6.6vw, 6.4rem); line-height:.9; text-wrap:balance}
+.e5{left:50%; top:19vh; translate:-50% 0; font-size:clamp(4.4rem, 11vw, 11rem)}
+.spark{position:absolute; z-index:5; width:22px; height:22px; color:var(--ink); opacity:var(--o,0); transform:scale(var(--o,0)) rotate(calc(var(--o,0) * 90deg))}
 
-.cue{position:absolute; z-index:5; left:50%; bottom:20px; translate:-50% 0; display:grid; justify-items:center; gap:6px; font-family:var(--f-mono); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary)}
-.cue i{display:block; width:1.5px; height:30px; background:linear-gradient(var(--text-primary), transparent); transform-origin:top; animation:cue 2.2s var(--ease-io) infinite; animation-delay:-.4s}
+/* floating glass menu cards on the last scene */
+.floats{position:absolute; inset:0; z-index:5; pointer-events:none}
+.float{position:absolute; width:clamp(144px, 12.5vw, 180px); pointer-events:auto; text-decoration:none;
+  background:var(--glass); border:1px solid var(--glass-line); border-radius:20px; padding:10px; display:grid; gap:9px;
+  backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2); box-shadow:var(--glass-shadow);
+  opacity:var(--o,0); transform:translate3d(0, calc((1 - var(--o,0)) * 26px), 0) scale(calc(.94 + .06 * var(--o,0)));
+  transition:box-shadow .5s var(--ease-out)}
+.float:hover{box-shadow:0 34px 70px -26px rgba(58,31,16,.6)}
+.float .tag{font-family:var(--f-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-hover); display:flex; justify-content:space-between; align-items:center; padding:0 2px}
+.float .tag svg{width:13px; height:13px; opacity:.5}
+.float .ph{border-radius:13px; overflow:hidden; aspect-ratio:4/5; background:var(--canvas)}
+.float .ph img{width:100%; height:100%; object-fit:cover; transition:transform 1.1s var(--ease-out)}
+.float:hover .ph img{transform:scale(1.06)}
+.float b{font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 36; font-size:1rem; line-height:1.15; padding:0 2px}
+.float small{font-size:.76rem; color:var(--text-secondary); padding:0 2px; margin-top:-5px}
+.float .mini{margin-top:2px; font-size:.74rem; padding:8px 14px; align-self:start; background:var(--ink); color:#f6ece0; border-radius:999px; display:inline-flex}
+.f-a{left:3vw;    top:32%}
+.f-b{left:14vw;   top:55%}
+.f-c{right:4vw;   top:40%}
+
+
+/* ---------------- persistent scene chrome ---------------- */
+.dots{position:fixed; z-index:45; left:50%; bottom:22px; translate:-50% 0; display:flex; align-items:center; gap:9px;
+  padding:9px 13px; border-radius:999px; background:var(--glass); border:1px solid var(--glass-line);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:var(--glass-shadow);
+  opacity:0; transform:translateY(12px); transition:opacity .6s var(--ease-out), transform .6s var(--ease-out)}
+.dots.show{opacity:1; transform:none}
+.dots button{width:8px; height:8px; padding:0; border:0; border-radius:999px; background:rgba(43,29,21,.26); transition:background .4s var(--ease-out), width .5s var(--ease-out)}
+.dots button[aria-current="true"]{background:var(--accent); width:22px}
+.railr{position:fixed; z-index:45; right:var(--gr); top:50%; translate:0 -50%; display:flex; align-items:center; gap:10px; pointer-events:none;
+  font-family:var(--f-mono); font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary);
+  writing-mode:vertical-rl; opacity:0; transition:opacity .6s var(--ease-out)}
+.railr.show{opacity:.85}
+.railr .track{width:1.5px; height:110px; background:var(--line); position:relative; overflow:hidden; border-radius:2px}
+.railr .track i{position:absolute; inset:0 0 auto; height:100%; background:var(--accent); transform-origin:top; transform:scaleY(var(--sp,0))}
+.fab{position:fixed; z-index:46; right:var(--gr); bottom:22px; width:50px; height:50px; border-radius:999px; display:grid; place-items:center;
+  background:var(--ink); color:#f6ece0; border:0; text-decoration:none; box-shadow:0 18px 34px -16px rgba(36,23,17,.85);
+  opacity:0; transform:translateY(12px) scale(.9); transition:opacity .6s var(--ease-out), transform .6s var(--ease-out), background .3s var(--ease-out)}
+.fab.show{opacity:1; transform:none}
+.fab:hover{background:#3a271c}
+.fab svg{width:21px; height:21px}
+.cue{position:absolute; z-index:5; left:50%; bottom:88px; translate:-50% 0; display:grid; justify-items:center; gap:6px; font-family:var(--f-mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary)}
+.cue i{display:block; width:1.5px; height:28px; background:linear-gradient(var(--ink), transparent); transform-origin:top; animation:cue 2.2s var(--ease-io) infinite; animation-delay:-.4s}
 @keyframes cue{0%{transform:scaleY(0)} 50%{transform:scaleY(1)} 100%{transform:scaleY(1); opacity:0}}
 
 /* ---------------- static hero mode (the five gates) ---------------- */
@@ -143,39 +216,74 @@ button{font:inherit; color:inherit; cursor:pointer}
   #s4 .stage{background-image:url("assets/s4-end.jpg")}
   #s5 .stage{background-image:url("assets/s5-end.jpg")}
   .band{--k:1!important; opacity:1!important}
-  .chip{--o:1!important}
-  .cue{display:none}
+  /* captions sit on the stills here, so give the lower third a soft floor */
+  .band.scrim::before{background:radial-gradient(ellipse 72% 64% at 42% 50%, rgba(243,235,224,.86) 0%, rgba(243,235,224,.56) 52%, rgba(243,235,224,0) 80%)}
+  .band.dark.scrim::before{background:radial-gradient(ellipse 72% 64% at 42% 50%, rgba(18,9,4,.72) 0%, rgba(18,9,4,.44) 50%, rgba(18,9,4,0) 80%)}
+  .stage::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(to top, rgba(240,232,220,.94) 0%, rgba(240,232,220,.62) 24%, rgba(240,232,220,0) 52%)}
+  #s4 .stage::after{background:linear-gradient(to top, rgba(22,12,5,.8) 0%, rgba(22,12,5,.34) 28%, rgba(22,12,5,0) 56%)}
+  #s5 .stage::after{background:linear-gradient(to top, rgba(240,232,220,.6) 0%, rgba(240,232,220,0) 34%)}
+  .chip, .float{--o:1!important}
+  .spark{--o:1!important}
+  .cue, .dots, .railr{display:none}
+}
+@media (max-width: 980px){
+  .c1, .c2, .c3, .c3b{max-width:min(46vw, 400px)}
+  .e1{font-size:22vw; right:1vw} .e2{font-size:20vw} .e3{font-size:18vw} .e4{font-size:11vw}
+  .c5 .ctarow{margin-top:clamp(56px, 8vh, 90px)}
+  .float{width:clamp(132px, 19vw, 168px)}
+  .f-a{left:1.5vw; top:30%} .f-b{left:8vw; top:56%} .f-c{right:2vw; top:38%}
 }
 @media (max-width: 720px){
-  .nav a:not(.btn){display:none}
-  .b1, .b2a{top:auto; bottom:8vh; translate:none; left:var(--gl); right:var(--gr)} .b3{top:11vh; left:var(--gl); right:var(--gr)}
-  .b1 h1{font-size:22vw} .b2a .disp{font-size:24vw}
-  .b2b{top:16vh; translate:none; right:var(--gr)}
+  :root{--gl:max(18px, env(safe-area-inset-left,0px)); --gr:max(18px, env(safe-area-inset-right,0px))}
+  .navr a:not(.pill), .navr .pill{display:none}
+  #navtoggle{display:inline-grid}
+  .c1, .c2, .c3, .c3b, .c4{max-width:none; left:var(--gl); right:var(--gr)}
+  .c1{top:auto; bottom:13vh; translate:none; gap:16px}
+  .c1 .disp{font-size:21vw}
+  .e1{right:auto; left:var(--gl); top:auto; bottom:36vh; translate:none; font-size:27vw}
+  .c2{top:14vh}
+  .e2{font-size:18vw; top:52%}
+  .c3{top:11vh}
+  .c3 .disp{font-size:16vw}
+  .arrow{width:52vw}
+  .e3{top:auto; bottom:30vh; font-size:28vw}
+  .c3b{bottom:11vh}
+  .c4{bottom:13vh} .c4 .disp{font-size:30vw}
+  .e4{top:13vh; font-size:16vw}
+  .c5{top:10vh; width:auto; left:var(--gl); right:var(--gr); translate:none}
+  .c5 .disp{font-size:12.5vw}
+  .e5{font-size:24vw; top:24vh}
+  .c5 .ctarow{margin-top:clamp(34px, 6.5vh, 58px)}
   .chips{display:none}
-  .b2a{max-width:none}
-  .b4{bottom:7vh}
-  .b5{top:12vh}
-  .lede{font-size:.98rem}
+  .lede{font-size:.97rem}
+  /* on a phone the floating cards become a tidy scroll row at the foot of the scene */
+  .floats{inset:auto 0 5vh 0; display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px var(--gl) 14px; -webkit-overflow-scrolling:touch; scrollbar-width:none}
+  .floats::-webkit-scrollbar{display:none}
+  .float{position:relative; inset:auto!important; flex:0 0 auto; width:136px; scroll-snap-align:center}
+  .spark{display:none}
+  .fab{width:46px; height:46px}
 }
-@media (max-height:560px) and (min-width:721px){ .cue, .chips{display:none} }
+@media (max-height:620px) and (min-width:721px){ .cue{display:none} .chips{bottom:80px} }
 
 /* ---------------- page below ---------------- */
 .wrap{max-width:1180px; margin:0 auto; padding-left:var(--gl); padding-right:var(--gr)}
 section.page{position:relative; padding-block:clamp(80px, 13vh, 150px)}
-.kicker{font-family:var(--f-mono); font-size:.78rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-hover)}
-.h2{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; font-size:clamp(2.6rem, 5.6vw, 4.8rem); line-height:.95; letter-spacing:-.02em; margin:10px 0 14px; text-wrap:balance}
-.p{color:var(--text-secondary); max-width:52ch; font-size:1.08rem; margin:0}
+.kicker{font-family:var(--f-mono); font-size:.74rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-hover)}
+.h2{font-family:var(--f-display); font-weight:900; font-variation-settings:"SOFT" 100, "WONK" 1, "opsz" 144; font-size:clamp(2.6rem, 5.6vw, 4.8rem); line-height:.95; letter-spacing:-.025em; margin:10px 0 14px; text-wrap:balance; color:var(--ink)}
+.h2 u{text-decoration:none; font-family:var(--f-groove); font-weight:400; color:var(--echo); letter-spacing:-.01em}
+.p{color:var(--text-secondary); max-width:52ch; font-size:1.06rem; margin:0}
 
 /* menu */
 .menu-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap}
 .menu-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; margin-top:44px}
-.card{background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:10px 10px 18px; display:flex; flex-direction:column; gap:12px; box-shadow:0 30px 60px -40px rgba(58,31,16,.5)}
-.card .ph{border-radius:14px; overflow:hidden; aspect-ratio:4/5; background:var(--canvas)}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:24px; padding:10px 10px 18px; display:flex; flex-direction:column; gap:12px; box-shadow:0 30px 60px -40px rgba(58,31,16,.5)}
+.card .ph{border-radius:16px; overflow:hidden; aspect-ratio:4/5; background:var(--canvas); position:relative}
 .card .ph img{width:100%; height:100%; object-fit:cover; transition:transform 1.2s var(--ease-out)}
 .card:hover .ph img{transform:scale(1.05)}
-.card h3{margin:0 8px; font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 36; font-size:1.4rem; line-height:1.1}
+.card h3{margin:0 8px; font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 36; font-size:1.4rem; line-height:1.1; color:var(--ink)}
 .card p{margin:0 8px; color:var(--text-secondary); font-size:.95rem}
-.card .tag{margin:auto 8px 0; font-family:var(--f-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-hover)}
+.card .tag{margin:auto 8px 0; font-family:var(--f-mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-hover)}
 .menu-note{margin-top:22px; font-size:.9rem; color:var(--text-secondary)}
 /* entrance choreography */
 .reveal .r{opacity:0; transform:translateY(28px); transition:opacity .9s var(--ease-out), transform 1.1s var(--ease-out)}
@@ -192,10 +300,10 @@ section.page{position:relative; padding-block:clamp(80px, 13vh, 150px)}
 .pour{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(28px, 6vw, 80px); align-items:center}
 .cupwrap{display:grid; justify-items:center; gap:22px}
 .cup{width:min(320px, 70vw); aspect-ratio:1/1; overflow:visible}
-.hold{position:relative; overflow:hidden; user-select:none; -webkit-user-select:none; touch-action:none; min-width:220px}
+.hold{position:relative; overflow:hidden; user-select:none; -webkit-user-select:none; touch-action:none; min-width:220px; border:0; border-radius:999px; padding:14px 24px; font-weight:500; font-size:.92rem; background:var(--ink); color:#f6ece0; box-shadow:0 12px 26px -16px rgba(36,23,17,.9)}
 .hold .fill{position:absolute; inset:0; background:var(--accent-hover); transform-origin:left; transform:scaleX(var(--hp,0)); z-index:0}
 .hold span{position:relative; z-index:1}
-.ready{font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 48; font-size:1.5rem; opacity:0; transform:translateY(10px); transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); text-align:center}
+.ready{font-family:var(--f-display); font-weight:800; font-variation-settings:"SOFT" 100, "opsz" 48; font-size:1.5rem; opacity:0; transform:translateY(10px); transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); text-align:center; color:var(--ink)}
 .poured .ready{opacity:1; transform:none}
 .cup-steam path{opacity:0; transition:opacity 1s var(--ease-out)}
 .poured .cup-steam path{opacity:.55; animation:rise 4.5s ease-in-out infinite}
@@ -203,18 +311,20 @@ section.page{position:relative; padding-block:clamp(80px, 13vh, 150px)}
 @keyframes rise{0%{transform:translateY(8px); opacity:0} 40%{opacity:.6} 100%{transform:translateY(-22px); opacity:0}}
 
 /* visit */
-.visit{background:var(--espresso); color:#f3e5d4; border-radius:32px; padding:clamp(32px, 6vw, 72px); display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:40px; align-items:center; position:relative; overflow:hidden}
+.visit{background:var(--espresso); color:#f3e5d4; border-radius:34px; padding:clamp(32px, 6vw, 72px); display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:40px; align-items:center; position:relative; overflow:hidden}
 .visit .h2{color:#f6eadb}
+.visit .h2 u{color:var(--accent-muted)}
 .visit .p{color:#e0c9b1}
 .visit dl{display:grid; gap:16px; margin:0}
-.visit dt{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-muted)}
+.visit dt{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-muted)}
 .visit dd{margin:4px 0 0; font-size:1.05rem}
+.visit .pill{background:var(--accent); color:#fff8f0} .visit .pill:hover{background:var(--accent-hover)}
 .visit .glow{position:absolute; right:-10%; top:-30%; width:60%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle, rgba(184,100,63,.45), transparent 65%); animation:pulse 9s ease-in-out infinite; animation-delay:-3s; pointer-events:none}
 @keyframes pulse{0%,100%{opacity:.5; transform:scale(1)} 50%{opacity:1; transform:scale(1.08)}}
 
 footer{padding-block:60px 50px}
 .foot{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:20px; border-top:1px solid var(--line); padding-top:28px; font-size:.9rem; color:var(--text-secondary)}
-.foot .groove{font-size:1.6rem}
+.foot .groove{font-family:var(--f-groove); font-weight:400; color:var(--echo); font-size:1.6rem}
 
 /* dust particles, whisper level */
 .dust{position:absolute; inset:0; overflow:hidden; pointer-events:none}
@@ -226,13 +336,13 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
 @media (max-width:760px){ .menu-grid{grid-template-columns:minmax(0,1fr); max-width:420px; margin-inline:auto} }
 @media (max-width:980px){ .pour, .visit{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:480px){ .menu-grid{gap:12px} .card h3{font-size:1.15rem} .card p{font-size:.86rem} }
-@media (pointer:coarse){ .btn{min-height:44px} .nav a{min-height:44px; display:inline-flex; align-items:center; justify-content:center} }
+@media (pointer:coarse){ .pill, .hold{min-height:44px} .navr a{min-height:44px; display:inline-flex; align-items:center; justify-content:center} }
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{animation:none!important; transition:none!important; transition-delay:0s!important}
   .reveal .r{opacity:1; transform:none}
   .steam-line path{stroke-dashoffset:0}
-  .b1, .b2a, .b2b, .b3, .b5{translate:none}
-  @media (min-width:721px){ .b1, .b2a, .b3{top:auto; bottom:10vh} .b2b{top:16vh} .b5{left:0; right:0; margin:auto} }
+  /* the only real motion here is the echo drift; the translates below it are centering, so they stay */
+  .echo{transform:none}
 }
 </style>
 </head>
@@ -241,32 +351,50 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
 <div class="env" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
-<header class="top">
-  <a class="pill-wrap brand" href="#top" aria-label="Khemji Café home">
-    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#2b1d15"/><path d="M32 46s-13-8-13-18a7 7 0 0 1 13-4 7 7 0 0 1 13 4c0 10-13 18-13 18z" fill="#b8643f"/></svg>
-    <b>KHEMJI<span>/</span>CAFÉ</b>
+<header class="top" id="top-bar">
+  <a class="wordmark" href="#top" aria-label="Khemji Café home">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#241711"/><path d="M32 46s-13-8-13-18a7 7 0 0 1 13-4 7 7 0 0 1 13 4c0 10-13 18-13 18z" fill="#c4794f"/></svg>
+    KHEMJI <i>/</i> <em>CAFÉ</em>
   </a>
-  <nav class="pill-wrap nav" aria-label="Main">
+  <nav class="navr" aria-label="Main">
     <a href="#menu">Menu</a>
+    <a href="#pour-game">Pour</a>
     <a href="#visit">Visit</a>
     <!-- OWNER: replace with the exact Google Maps link for the cafe -->
-    <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+    <a class="pill maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+    <button class="iconbtn" id="navtoggle" type="button" aria-expanded="false" aria-controls="sheet" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+    </button>
   </nav>
 </header>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-in" role="dialog" aria-modal="true" aria-label="Menu">
+    <button class="iconbtn sheet-close" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <a href="#menu">Menu <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a href="#pour-game">Pour one <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a href="#visit">Visit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="pill maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+  </div>
+</div>
 
 <main id="main" tabindex="-1">
   <!-- 1 GRIND -->
   <section class="scene" id="s1" data-n="1" aria-label="Grind">
     <div class="stage" id="top">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <div class="band b1 fx-drift" data-a="0" data-b="1.01" data-first>
-        <span class="eyebrow">Khemji Café · Happy Hearts</span>
+      <p class="band echo e1 split fx-drift" data-a="0" data-b="1.01" data-first style="--drift:-3vw" aria-hidden="true">fresh</p>
+      <div class="band c1 scrim fx-drift" data-a="0" data-b="1.01" data-first>
+        <span class="crumb">Khemji Café <i>/</i> Happy Hearts</span>
         <h1 class="disp split">Grind</h1>
-        <p class="groove split" aria-hidden="true">fresh</p>
         <p class="lede sub">Every cup starts as a whole bean. We grind it after you order, so nothing sits around going stale.</p>
-        <div class="row sub2">
-          <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
-          <a class="btn btn-ghost" href="#menu">See the menu</a>
+        <div class="ctarow sub2">
+          <a class="pill" href="#menu">See the menu</a>
+          <a class="circ maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener" aria-label="Get directions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
       <div class="cue" aria-hidden="true">Scroll<i></i></div>
@@ -278,12 +406,12 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s2" data-n="2" aria-label="Your way">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <div class="band b2a fx-part" data-a=".04" data-b="1.01">
-        <span class="eyebrow">Ground to order</span>
-        <h2 class="disp split">Your</h2>
-        <p class="lede sub">Fine for a strong cup, coarse for a cold brew. Tell us how you like it.</p>
+      <p class="band echo e2 split fx-part" data-a=".02" data-b="1.01" style="--drift:2vw" aria-hidden="true">your way</p>
+      <div class="band c2 scrim fx-drift" data-a=".04" data-b="1.01">
+        <span class="crumb">Chapter two <i>/</i> Ground to order</span>
+        <h2 class="sr">Your way</h2>
+        <p class="lede sub">Fine for a strong cup, coarse for a cold brew. Tell us how you like it and the burrs get set to match.</p>
       </div>
-      <div class="band b2b groove fx-drift" data-a=".1" data-b="1.01" aria-hidden="true"><span class="w" style="--th:0">w</span><span class="w" style="--th:.12">a</span><span class="w" style="--th:.24">y</span></div>
       <div class="chips" aria-label="How we grind">
         <span class="chip" data-at=".3">Ground fresh for every order</span>
         <span class="chip" data-at=".45">Fine to coarse</span>
@@ -297,11 +425,13 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s3" data-n="3" aria-label="Pour">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <div class="band b3 fx-drift" data-a=".04" data-b="1.01">
-        <span class="eyebrow">Brewed slow</span>
+      <p class="band echo e3 split fx-drift" data-a=".02" data-b="1.01" style="--drift:-2.5vw" aria-hidden="true">slow</p>
+      <div class="band c3 scrim fx-drift" data-a=".04" data-b="1.01">
+        <span class="crumb">Chapter three <i>/</i> Brewed slow</span>
         <h2 class="disp split">Pour</h2>
         <svg class="arrow" viewBox="0 0 260 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 14 C60 4 150 20 252 9 M240 3 252 9 242 17"/></svg>
-        <p class="groove split" aria-hidden="true">slow</p>
+      </div>
+      <div class="band c3b scrim fx-drift" data-a=".34" data-b="1.01">
         <p class="lede sub">Hot water, a slow spiral, and three quiet minutes. Your coffee is never rushed.</p>
       </div>
       <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
@@ -312,7 +442,8 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s4" data-n="4" aria-label="Sip">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <div class="band b4 dark fx-punch" data-a=".42" data-b="1.01">
+      <p class="band echo e4 lift split fx-rise" data-a=".4" data-b="1.01" style="--drift:2vw" aria-hidden="true">deep</p>
+      <div class="band c4 dark fx-punch" data-a=".42" data-b="1.01">
         <h2 class="disp split">Sip</h2>
         <p class="lede sub">Smooth, fresh and never bitter. You can taste the difference on the first sip.</p>
       </div>
@@ -324,15 +455,38 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s5" data-n="5" aria-label="Find your cup">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <div class="band b5 fx-rise" data-a=".05" data-b="1.01">
-        <svg class="orbit" viewBox="0 0 820 300" aria-hidden="true"><ellipse cx="410" cy="150" rx="396" ry="128" fill="none" stroke="#2b1d15" stroke-width="1.6"/></svg>
-        <svg class="spark" style="left:6%; top:8%" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
-        <svg class="spark" style="right:8%; bottom:30%; width:16px; height:16px" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+      <p class="band echo e5 split fx-rise" data-a=".05" data-b="1.01" style="--drift:0vw" aria-hidden="true">cup</p>
+      <div class="band c5 fx-rise" data-a=".05" data-b="1.01">
+        <span class="crumb">Chapter five <i>/</i> Yours to keep</span>
         <h2 class="disp split">Find your cup</h2>
-        <div class="row sub2" style="justify-content:center">
-          <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
-          <a class="btn btn-ghost" href="#menu">See the menu</a>
+        <div class="ctarow sub2" style="justify-content:center">
+          <a class="pill maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>
+          <a class="circ" href="#menu" aria-label="See the menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </a>
         </div>
+      </div>
+      <svg class="spark" style="left:16%; top:16%" data-at=".3" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+      <svg class="spark" style="right:19%; top:22%; width:15px; height:15px" data-at=".42" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+      <svg class="spark" style="right:30%; top:12%; width:12px; height:12px" data-at=".52" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c.8 6.4 5.6 11.2 12 12-6.4.8-11.2 5.6-12 12-.8-6.4-5.6-11.2-12-12C6.4 11.2 11.2 6.4 12 0z"/></svg>
+
+      <div class="floats" aria-label="On the menu">
+        <!-- OWNER: confirm drink names and lines -->
+        <a class="float f-a" href="#menu" data-at=".3">
+          <span class="tag">Origin <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.3A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span>
+          <span class="ph"><img src="assets/menu-filter.jpg" alt="" loading="lazy" width="800" height="1000"></span>
+          <b>Filter Kaapi</b><small>Strong, milky, frothy.</small><span class="mini">See menu</span>
+        </a>
+        <a class="float f-b" href="#menu" data-at=".4">
+          <span class="tag">Roast <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.3A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span>
+          <span class="ph"><img src="assets/menu-cappuccino.jpg" alt="" loading="lazy" width="800" height="1000"></span>
+          <b>Cappuccino</b><small>Foam, and a heart on top.</small><span class="mini">See menu</span>
+        </a>
+        <a class="float f-c" href="#menu" data-at=".48">
+          <span class="tag">Chill <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.3A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span>
+          <span class="ph"><img src="assets/menu-coldbrew.jpg" alt="" loading="lazy" width="800" height="1000"></span>
+          <b>Cold Brew</b><small>Slow steeped, cold and clean.</small><span class="mini">See menu</span>
+        </a>
       </div>
       <svg class="ring" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20" fill="none" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
     </div>
@@ -345,12 +499,11 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
       <div class="menu-head reveal">
         <div class="r">
           <div class="kicker">On the menu</div>
-          <h2 class="h2">Made fresh, every single time.</h2>
+          <h2 class="h2">Made <u>fresh</u>, every single time.</h2>
           <p class="p">Pick your favourite. We grind and brew it when you order, never before.</p>
         </div>
       </div>
       <div class="menu-grid reveal">
-        <!-- OWNER: confirm drink names and lines -->
         <article class="card r"><div class="ph"><img src="assets/menu-filter.jpg" alt="Filter coffee in a steel tumbler and davara" loading="lazy" width="800" height="1000"></div><h3>Filter Kaapi</h3><p>Strong, milky and frothy, served the old way.</p><span class="tag">Made fresh to order</span></article>
         <article class="card r"><div class="ph"><img src="assets/menu-cappuccino.jpg" alt="Cappuccino with a heart in the foam" loading="lazy" width="800" height="1000"></div><h3>Cappuccino</h3><p>Smooth foam, a heart on top, and a happy start.</p><span class="tag">Made fresh to order</span></article>
         <article class="card r"><div class="ph"><img src="assets/menu-coldbrew.jpg" alt="Cold brew over ice in a tall glass" loading="lazy" width="800" height="1000"></div><h3>Cold Brew</h3><p>Slow steeped, cold and clean. Great on a hot day.</p><span class="tag">Made fresh to order</span></article>
@@ -366,7 +519,7 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
     <div class="wrap pour reveal">
       <div class="r">
         <div class="kicker">Try it</div>
-        <h2 class="h2">Pour yourself one.</h2>
+        <h2 class="h2">Pour yourself <u>one</u>.</h2>
         <p class="p">Press and hold the button. Good coffee takes a moment, so don't let go too soon.</p>
       </div>
       <div class="cupwrap r" id="cupwrap">
@@ -382,7 +535,7 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
           <g clip-path="url(#cupIn)"><rect id="level" x="40" y="104" width="220" height="200" fill="url(#cof)" style="transform:translateY(calc((1 - var(--lv,0)) * 165px))"/></g>
           <path d="M58 98 H242" stroke="#c9b9a2" stroke-width="3" stroke-linecap="round"/>
         </svg>
-        <button class="btn btn-accent hold" id="hold" type="button" aria-describedby="hold-help"><span class="fill"></span><span id="hold-label">Hold to pour</span></button>
+        <button class="hold" id="hold" type="button" aria-describedby="hold-help"><span class="fill"></span><span id="hold-label">Hold to pour</span></button>
         <span class="sr" id="hold-help">Press and hold to fill the cup. Keyboard: hold the space bar.</span>
         <div class="ready" role="status" aria-live="polite"></div>
       </div>
@@ -396,10 +549,10 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
         <div class="glow" aria-hidden="true"></div>
         <div class="r">
           <div class="kicker" style="color:var(--accent-muted)">Visit us</div>
-          <h2 class="h2">Come say hi.</h2>
+          <h2 class="h2">Come say <u>hi</u>.</h2>
           <p class="p">Pull up a chair, tell us how you like your coffee, and we'll take it from there.</p>
-          <div class="row" style="margin-top:26px">
-            <a class="btn btn-accent maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions
+          <div class="ctarow" style="margin-top:26px">
+            <a class="pill maps" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
         </div>
@@ -421,6 +574,19 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
     <!-- OWNER: add the Instagram handle -->
   </div>
 </footer>
+
+<!-- scene chrome: dots, right rail, quick action -->
+<nav class="dots" id="dots" aria-label="Scenes">
+  <button type="button" data-go="s1" aria-label="Grind"></button>
+  <button type="button" data-go="s2" aria-label="Your way"></button>
+  <button type="button" data-go="s3" aria-label="Pour"></button>
+  <button type="button" data-go="s4" aria-label="Sip"></button>
+  <button type="button" data-go="s5" aria-label="Find your cup"></button>
+</nav>
+<div class="railr" id="railr" aria-hidden="true"><span id="rail-label">Grind</span><span class="track"><i></i></span></div>
+<a class="fab" id="fab" href="#menu" aria-label="Jump to the menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M16 9h2.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 2.5v2M12 2.5v2"/></svg>
+</a>
 
 <script src="assets/vendor/lenis.min.js" defer></script>
 <script defer>
@@ -446,7 +612,9 @@ document.querySelectorAll('.split').forEach(el => {
   const text = el.textContent.trim();
   const words = text.split(/\s+/);
   el.textContent = '';
-  const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = text; el.appendChild(sr);
+  if (!el.hasAttribute('aria-hidden')){
+    const sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = text; el.appendChild(sr);
+  }
   const vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true');
   words.forEach((w, i) => {
     const s = document.createElement('span'); s.className = 'w'; s.textContent = w;
@@ -463,7 +631,7 @@ const scenes = [...document.querySelectorAll('.scene')].map(el => {
   const n = +el.dataset.n, stage = el.querySelector('.stage');
   return { n, el, stage, video: stage.querySelector('video'), ring: stage.querySelector('.ring'),
     bands: [...stage.querySelectorAll('.band')].map(b => ({ el: b, a: +b.dataset.a, b: +b.dataset.b, ramp: +b.dataset.ramp || 0, first: b.hasAttribute('data-first'), op: -1, k: -1 })),
-    chips: [...stage.querySelectorAll('.chip')].map(c => ({ el: c, at: +c.dataset.at, o: -1 })),
+    chips: [...stage.querySelectorAll('[data-at]')].map(c => ({ el: c, at: +c.dataset.at, o: -1 })),
     target: 0, shown: 0, busy: false, pending: null, on: false, ready: false, started: false };
 });
 
@@ -496,10 +664,50 @@ function updateCaptions(s, p){
     if (Math.abs(k - b.k) > 0.008 || (k === 1 && b.k !== 1)){ b.k = k; b.el.style.setProperty('--k', k.toFixed(3)); }
   }
   for (const c of s.chips){
-    const o = smooth(p, c.at, c.at + 0.06);
+    const o = smooth(p, c.at, c.at + 0.08);
     if (Math.abs(o - c.o) > 0.008 || (o === 1 && c.o !== 1)){ c.o = o; c.el.style.setProperty('--o', o.toFixed(3)); }
   }
 }
+
+/* ---------- scene chrome: dots, right rail, sticky bar ---------- */
+const dotsEl = document.getElementById('dots'), dotBtns = [...dotsEl.querySelectorAll('button')];
+const railEl = document.getElementById('railr'), railBar = railEl.querySelector('.track i'), railLabel = document.getElementById('rail-label');
+const fabEl = document.getElementById('fab'), topBar = document.getElementById('top-bar');
+const NAMES = ['Grind', 'Your way', 'Pour', 'Sip', 'Find your cup'];
+let lastActive = -1, chromeOn = null;
+function updateChrome(){
+  const stackEnd = scenes[scenes.length - 1].el.getBoundingClientRect().bottom;
+  const inStack = stackEnd > innerHeight * 0.5 && !MQLS.some(m => m.matches);
+  if (inStack !== chromeOn){
+    chromeOn = inStack;
+    dotsEl.classList.toggle('show', inStack);
+    railEl.classList.toggle('show', inStack);
+  }
+  const first = scenes[0].el.getBoundingClientRect();
+  topBar.classList.toggle('stuck', first.top < -40);
+  fabEl.classList.toggle('show', -first.top > innerHeight * 0.8);
+  if (!inStack) return;
+  const mid = innerHeight / 2;
+  let active = 0, total = 0;
+  scenes.forEach((s, i) => {
+    const r = s.el.getBoundingClientRect();
+    if (r.top <= mid && r.bottom > mid) active = i;
+    total += s.on ? 0 : 0;
+  });
+  const top = scenes[0].el.getBoundingClientRect().top;
+  const span = scenes[scenes.length - 1].el.getBoundingClientRect().bottom - top;
+  railBar.style.setProperty('--sp', clamp((-top + mid) / span, 0, 1).toFixed(3));
+  if (active !== lastActive){
+    lastActive = active;
+    dotBtns.forEach((b, i) => b.setAttribute('aria-current', i === active ? 'true' : 'false'));
+    railLabel.textContent = NAMES[active];
+  }
+}
+dotBtns.forEach(b => b.addEventListener('click', () => {
+  const t = document.getElementById(b.dataset.go); if (!t) return;
+  if (lenis) { lenis.scrollTo(t, { duration: 1.5 }); wakeLenis(); }
+  else t.scrollIntoView({ behavior: RM.matches ? 'auto' : 'smooth' });
+}));
 
 /* ---------- lerp loop that rests ---------- */
 let rafId = null, last = 0;
@@ -518,7 +726,7 @@ function tick(now){
   if (moving) rafId = requestAnimationFrame(tick); else { rafId = null; last = 0; }
 }
 function kick(){ if (rafId === null) rafId = requestAnimationFrame(tick); }
-function onScroll(){ for (const s of scenes) if (s.on) s.target = progress(s); kick(); }
+function onScroll(){ for (const s of scenes) if (s.on) s.target = progress(s); updateChrome(); kick(); }
 
 const io = new IntersectionObserver(es => es.forEach(e => {
   const s = scenes.find(x => x.el === e.target); s.on = e.isIntersecting;
@@ -572,12 +780,16 @@ function startLenis(){
   if (lenis || !window.Lenis) return;
   lenis = new Lenis({ duration: 1.35, easing: t => 1 - Math.pow(1 - t, 4), smoothWheel: true, wheelMultiplier: .85, autoRaf: false });
   ['wheel', 'keydown', 'pointerdown'].forEach(ev => addEventListener(ev, wakeLenis, { passive: true }));
-  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-    const id = a.getAttribute('href'); const t = id === '#top' ? 0 : document.querySelector(id); if (t === null) return;
-    e.preventDefault(); lenis.scrollTo(t, { duration: 1.8 }); wakeLenis();
-  }));
 }
 function stopLenis(){ if (!lenis) return; lenis.destroy(); lenis = null; if (lrId) cancelAnimationFrame(lrId); lrId = null; }
+/* anchor links work in both modes */
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const id = a.getAttribute('href'); if (id === '#' || id === '#main') return;
+  const t = id === '#top' ? 0 : document.querySelector(id); if (t === null) return;
+  closeSheet();
+  if (!lenis) return;
+  e.preventDefault(); lenis.scrollTo(t, { duration: 1.8 }); wakeLenis();
+}));
 
 /* ---------- arm / disarm, decided live ---------- */
 let scrubOn = false;
@@ -593,14 +805,32 @@ function disableScrub(){
   removeEventListener('scroll', onScroll); io.disconnect(); stopLenis();
   if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
   scenes.forEach(s => s.on = false);
+  chromeOn = null; dotsEl.classList.remove('show'); railEl.classList.remove('show');
+  addEventListener('scroll', staticChrome, { passive: true }); staticChrome();
+}
+function staticChrome(){
+  const first = scenes[0].el.getBoundingClientRect();
+  topBar.classList.toggle('stuck', first.top < -40);
+  fabEl.classList.toggle('show', -first.top > innerHeight * 0.8);
 }
 function pinFinal(){
   scenes.forEach(s => { s.bands.forEach(b => { b.el.style.opacity = 1; b.el.style.setProperty('--k', 1); }); s.chips.forEach(c => c.el.style.setProperty('--o', 1)); });
   finishPour(true);
 }
-function unpin(){ scenes.forEach(s => { s.bands.forEach(b => { b.el.style.opacity = ''; b.el.style.removeProperty('--k'); }); s.chips.forEach(c => c.el.style.removeProperty('--o')); }); }
+function unpin(){
+  removeEventListener('scroll', staticChrome);
+  scenes.forEach(s => { s.bands.forEach(b => { b.el.style.opacity = ''; b.el.style.removeProperty('--k'); }); s.chips.forEach(c => c.el.style.removeProperty('--o')); });
+}
 function applyMode(){ if (MQLS.some(m => m.matches)){ disableScrub(); pinFinal(); } else enableScrub(); }
 MQLS.forEach(m => m.addEventListener('change', applyMode));
+
+/* ---------- mobile sheet ---------- */
+const sheet = document.getElementById('sheet'), navToggle = document.getElementById('navtoggle');
+function openSheet(){ sheet.hidden = false; sheet.classList.add('open'); navToggle.setAttribute('aria-expanded', 'true'); sheet.querySelector('a').focus(); }
+function closeSheet(){ if (sheet.hidden) return; sheet.classList.remove('open'); sheet.hidden = true; navToggle.setAttribute('aria-expanded', 'false'); }
+navToggle.addEventListener('click', () => sheet.hidden ? openSheet() : closeSheet());
+sheet.addEventListener('click', e => { if (e.target === sheet || e.target.closest('.sheet-close')) closeSheet(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
 /* ---------- page entrances ---------- */
 const rio = new IntersectionObserver(es => es.forEach(e => {
@@ -627,7 +857,7 @@ function hTick(now){
 function finishPour(instant){
   if (poured) return; poured = true; holding = false; setLv(1); wrap.classList.add('poured');
   label.textContent = 'Poured';
-  readyEl.innerHTML = 'Your cup is ready. Come get it.<br><a class="btn btn-accent maps" style="margin-top:14px; font-family:var(--f-body); font-size:.92rem" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>';
+  readyEl.innerHTML = 'Your cup is ready. Come get it.<br><a class="pill maps" style="margin-top:14px; font-family:var(--f-body); font-size:.92rem" href="https://www.google.com/maps/search/?api=1&query=Khemji+Cafe" target="_blank" rel="noopener">Get directions</a>';
 }
 const down = e => { if (poured) return; if (e.type === 'keydown' && e.key !== ' ' && e.key !== 'Enter') return; if (e.repeat) return; e.preventDefault(); holding = true; if (!hRaf) hRaf = requestAnimationFrame(hTick); };
 const up = () => { holding = false; if (!hRaf && !poured && lv > 0) hRaf = requestAnimationFrame(hTick); };
@@ -638,6 +868,7 @@ hold.addEventListener('contextmenu', e => e.preventDefault());
 
 RM.addEventListener('change', e => { if (e.matches) pinFinal(); });
 document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
+addEventListener('resize', () => { chromeOn = null; if (scrubOn) onScroll(); else staticChrome(); }, { passive: true });
 
 applyMode();
 if (RM.matches) pinFinal();
