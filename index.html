@@ -156,9 +156,26 @@ button{font:inherit; color:inherit; cursor:pointer}
 .c1{left:var(--gl); top:50%; translate:0 -50%; display:grid; gap:20px; max-width:min(31vw, 390px)}
 .c1 .disp{font-size:clamp(4.4rem, 9.6vw, 9.4rem)}
 .e1{right:5.5vw; top:50%; translate:0 -57%; font-size:clamp(6rem, 16.5vw, 16.5rem)}
-/* ---- scene 2 · YOUR WAY ---- */
-.c2{left:var(--gl); top:19vh; display:grid; gap:16px; max-width:min(28vw, 340px)}
-.e2{left:50%; top:50%; translate:-50% -50%; font-size:clamp(6rem, 17.5vw, 17.5rem); letter-spacing:-.02em}
+/* ---- scene 2 · the reference's "secret sauce" composition ---- */
+.c2{left:var(--gl); top:17vh; display:grid; gap:16px; max-width:min(28vw, 340px)}
+/* a stacked block of condensed lines, not one word, as the reference sets it */
+.echo.stack{white-space:normal; line-height:.8}
+.e2{left:var(--gl); top:50%; translate:0 -48%; width:min(58vw, 840px); text-align:left;
+  font-size:clamp(3.4rem, 9.6vw, 9.6rem); letter-spacing:-.005em}
+/* the small notes the reference tucks either side of the product */
+.micro{position:absolute; z-index:5; font-size:.8rem; font-weight:500; color:var(--ink); opacity:var(--o,0); max-width:16ch}
+.micro.m-l{left:var(--gl); top:70%}
+.micro.m-r{right:calc(var(--gr) + 44px); top:25%; text-align:right; font-size:.72rem; color:var(--text-secondary)}
+/* stadium photo chips that sit alongside the subject */
+.inset{position:absolute; z-index:3; border-radius:999px; overflow:hidden; background:var(--panel);
+  box-shadow:0 26px 54px -24px rgba(36,20,12,.55); opacity:var(--o,0);
+  transform:translate3d(0, calc((1 - var(--o,0)) * 20px), 0)}
+.inset img{width:100%; height:100%; object-fit:cover}
+.i-l{left:6vw;  bottom:11vh; width:clamp(150px, 15vw, 220px); height:clamp(74px, 7.2vw, 104px)}
+.i-r{right:7vw; top:62%;     width:clamp(140px, 14vw, 205px); height:clamp(70px, 6.8vw, 98px)}
+/* the orange shape cropped by the corner */
+.blob{position:absolute; z-index:3; right:-5vw; top:-7vw; width:clamp(150px, 15vw, 230px); aspect-ratio:1;
+  border-radius:999px; background:var(--accent); opacity:calc(var(--o,0) * .92)}
 .chips{position:absolute; z-index:5; right:var(--gr); bottom:92px; display:grid; gap:8px; justify-items:end}
 .chip{font-family:var(--f-body); font-weight:500; font-size:.74rem; letter-spacing:.03em; padding:9px 15px; border-radius:999px; background:var(--glass); border:1px solid var(--glass-line); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:var(--glass-shadow); display:inline-flex; gap:9px; align-items:center; opacity:var(--o,0); transform:translateX(calc((1 - var(--o,0)) * 18px))}
 .chip::before{content:""; width:7px; height:7px; border-radius:2px; transform:rotate(45deg); background:var(--accent)}
@@ -251,7 +268,8 @@ button{font:inherit; color:inherit; cursor:pointer}
   .c1, .c2, .c3, .c3b{max-width:min(46vw, 400px)}
   .navc a{padding:8px 9px; font-size:.72rem; letter-spacing:.07em}
   .navr .where{display:none}
-  .e1{font-size:22vw; right:1vw} .e2{font-size:20vw} .e3{font-size:18vw} .e4{font-size:11vw}
+  .e1{font-size:22vw; right:1vw} .e2{font-size:7.4vw} .e3{font-size:18vw} .e4{font-size:11vw}
+  .i-l{left:3vw} .i-r{right:2vw}
   .c5 .ctarow{margin-top:clamp(56px, 8vh, 90px)}
   .float{width:clamp(132px, 19vw, 168px)}
   .f-a{left:1.5vw; top:30%} .f-b{left:8vw; top:56%} .f-c{right:2vw; top:38%}
@@ -268,7 +286,9 @@ button{font:inherit; color:inherit; cursor:pointer}
   .e1{right:auto; left:var(--gl); top:auto; bottom:49vh; translate:none; font-size:34vw}
   .badge{display:none}   /* the hero mark crowds the band word at this width */
   .c2{top:14vh}
-  .e2{font-size:25vw; top:52%}
+  .e2{font-size:12.5vw; top:50%; width:auto; right:var(--gr)}
+  .micro, .inset{display:none}
+  .blob{right:auto; left:-18vw; top:34%; width:34vw}  /* clear of the menu button */
   .c3{top:11vh}
   .c3 .disp{font-size:16vw}
   .arrow{width:52vw}
@@ -461,12 +481,17 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s2" data-n="2" aria-label="Your way">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <p class="band echo e2 split fx-part" data-a=".02" data-b="1.01" style="--drift:2vw" aria-hidden="true">your way</p>
+      <div class="blob" data-at=".12" aria-hidden="true"></div>
+      <p class="band echo e2 stack split fx-part" data-a=".02" data-b="1.01" style="--drift:1vw" aria-hidden="true">Whole beans ground fresh for every cup</p>
       <div class="band c2 scrim fx-drift" data-a=".04" data-b="1.01">
         <span class="crumb">Chapter two <i>/</i> Ground to order</span>
-        <h2 class="sr">Your way</h2>
+        <h2 class="sr">Your way: whole beans, ground fresh for every cup</h2>
         <p class="lede sub">Fine for a strong cup, coarse for a cold brew. Tell us how you like it and the burrs get set to match.</p>
       </div>
+      <span class="micro m-l" data-at=".24" aria-hidden="true">Secret sauce</span>
+      <span class="micro m-r" data-at=".3" aria-hidden="true">Why it tastes better</span>
+      <span class="inset i-l" data-at=".36" aria-hidden="true"><img src="assets/menu-cappuccino.jpg" alt="" loading="lazy" width="800" height="1000"></span>
+      <span class="inset i-r" data-at=".44" aria-hidden="true"><img src="assets/menu-coldbrew.jpg" alt="" loading="lazy" width="800" height="1000"></span>
       <div class="chips" aria-label="How we grind">
         <span class="chip" data-at=".3">Ground fresh for every order</span>
         <span class="chip" data-at=".45">Fine to coarse</span>
