@@ -155,7 +155,9 @@ button{font:inherit; color:inherit; cursor:pointer}
 /* ---- scene 1 · GRIND ---- */
 .c1{left:var(--gl); top:50%; translate:0 -50%; display:grid; gap:20px; max-width:min(31vw, 390px)}
 .c1 .disp{font-size:clamp(4.4rem, 9.6vw, 9.4rem)}
-.e1{right:5.5vw; top:50%; translate:0 -57%; font-size:clamp(6rem, 16.5vw, 16.5rem)}
+.e1{left:34vw; right:auto; top:50%; translate:0 -48%; width:min(60vw, 870px); text-align:left;
+  font-size:clamp(2.6rem, 5.8vw, 5.8rem)}
+#s1 .micro.m-r{top:auto; bottom:26vh}
 /* ---- scene 2 · the reference's "secret sauce" composition ---- */
 .c2{left:var(--gl); top:17vh; display:grid; gap:16px; max-width:min(28vw, 340px)}
 /* a stacked block of condensed lines, not one word, as the reference sets it */
@@ -166,6 +168,7 @@ button{font:inherit; color:inherit; cursor:pointer}
 .micro{position:absolute; z-index:5; font-size:.8rem; font-weight:500; color:var(--ink); opacity:var(--o,0); max-width:16ch}
 .micro.m-l{left:var(--gl); top:70%}
 .micro.m-r{right:calc(var(--gr) + 44px); top:25%; text-align:right; font-size:.72rem; color:var(--text-secondary)}
+.dark .micro, .micro.on-dark{color:#f4e6d6; text-shadow:0 2px 10px rgba(20,10,4,.8)}
 /* stadium photo chips that sit alongside the subject */
 .inset{position:absolute; z-index:3; border-radius:999px; overflow:hidden; background:var(--panel);
   box-shadow:0 26px 54px -24px rgba(36,20,12,.55); opacity:var(--o,0);
@@ -185,16 +188,24 @@ button{font:inherit; color:inherit; cursor:pointer}
 .c3 .disp{font-size:clamp(3.6rem, 7.6vw, 7.4rem)}
 .arrow{width:min(230px, 40vw); height:20px; color:var(--ink)}
 .arrow path{stroke-dasharray:300; stroke-dashoffset:calc(300 - 300 * var(--k,0))}
-.e3{left:calc(var(--gl) - .04em); top:27vh; font-size:clamp(5.5rem, 15vw, 15rem)}
+.e3{left:var(--gl); top:28vh; width:min(50vw, 720px); font-size:clamp(2.8rem, 7vw, 7rem)}
+#s3 .i-r{right:5vw; top:26%}
+#s3 .micro.m-l{top:auto; bottom:28vh}
+#s3 .micro.m-r{top:62%}
 /* ---- scene 4 · SIP ---- */
 .c4{left:var(--gl); bottom:12vh; display:grid; gap:12px; max-width:min(36vw, 430px)}
 .c4 .disp{font-size:clamp(6rem, 17vw, 17rem); line-height:.78}
-.e4{left:var(--gl); top:15vh; font-size:clamp(3.4rem, 8.5vw, 8.5rem); opacity:.42}
+.e4{left:var(--gl); top:13vh; width:min(40vw, 560px); font-size:clamp(2.2rem, 5.2vw, 5.2rem); opacity:.46}
+#s4 .i-r{right:6vw; top:20%}
+#s4 .micro.m-r{top:56%}
 /* ---- scene 5 · FIND YOUR CUP ---- */
 .c5{left:50%; top:12vh; translate:-50% 0; text-align:center; display:grid; justify-items:center; gap:16px; width:min(92vw, 820px)}
 .c5 .ctarow{margin-top:clamp(58px, 8.4vh, 94px)}
 .c5 .disp{font-size:clamp(2.9rem, 6.6vw, 6.4rem); line-height:.9; text-wrap:balance}
-.e5{left:50%; top:19vh; translate:-50% 0; font-size:clamp(4.4rem, 11vw, 11rem)}
+.e5{left:50%; top:19vh; translate:-50% 0; width:min(56vw, 760px); text-align:center;
+  font-size:clamp(2.4rem, 5.6vw, 5.6rem)}
+#s5 .micro.m-l{top:23%}
+#s5 .micro.m-r{top:23%}
 .spark{position:absolute; z-index:5; width:22px; height:22px; color:var(--ink); opacity:var(--o,0); transform:scale(var(--o,0)) rotate(calc(var(--o,0) * 90deg))}
 
 /* floating glass menu cards on the last scene */
@@ -268,7 +279,7 @@ button{font:inherit; color:inherit; cursor:pointer}
   .c1, .c2, .c3, .c3b{max-width:min(46vw, 400px)}
   .navc a{padding:8px 9px; font-size:.72rem; letter-spacing:.07em}
   .navr .where{display:none}
-  .e1{font-size:22vw; right:1vw} .e2{font-size:7.4vw} .e3{font-size:18vw} .e4{font-size:11vw}
+  .e1{font-size:7.6vw} .e2{font-size:7.4vw} .e3{font-size:8vw} .e4{font-size:6vw} .e5{font-size:7vw}
   .i-l{left:3vw} .i-r{right:2vw}
   .c5 .ctarow{margin-top:clamp(56px, 8vh, 90px)}
   .float{width:clamp(132px, 19vw, 168px)}
@@ -283,22 +294,22 @@ button{font:inherit; color:inherit; cursor:pointer}
   .c1, .c2, .c3, .c3b, .c4{max-width:none; left:var(--gl); right:var(--gr)}
   .c1{top:auto; bottom:13vh; translate:none; gap:16px}
   .c1 .disp{font-size:21vw}
-  .e1{right:auto; left:var(--gl); top:auto; bottom:49vh; translate:none; font-size:34vw}
+  .e1{right:auto; left:var(--gl); top:auto; bottom:46vh; translate:none; width:auto; text-align:left; font-size:13vw}
   .badge{display:none}   /* the hero mark crowds the band word at this width */
   .c2{top:14vh}
   .e2{font-size:12.5vw; top:50%; width:auto; right:var(--gr)}
   .micro, .inset{display:none}
-  .blob{right:auto; left:-18vw; top:34%; width:34vw}  /* clear of the menu button */
+  .blob, .b-tr, .b-tl, .b-br, .b-bl{right:auto; left:-18vw; top:34%; bottom:auto; width:34vw}  /* clear of the menu button */
   .c3{top:11vh}
   .c3 .disp{font-size:16vw}
   .arrow{width:52vw}
-  .e3{top:auto; bottom:30vh; font-size:34vw}
+  .e3{top:auto; bottom:26vh; width:auto; font-size:12.5vw}
   .c3b{bottom:11vh}
   .c4{bottom:13vh} .c4 .disp{font-size:30vw}
-  .e4{top:13vh; font-size:16vw}
+  .e4{top:12vh; width:auto; font-size:9.5vw}
   .c5{top:10vh; width:auto; left:var(--gl); right:var(--gr); translate:none}
   .c5 .disp{font-size:12.5vw}
-  .e5{font-size:22vw; top:15vh}
+  .e5{font-size:11vw; top:13vh; width:auto; left:var(--gl); right:var(--gr); translate:none}
   .c5 .ctarow{margin-top:clamp(34px, 6.5vh, 58px)}
   .chips{display:none}
   .lede{font-size:.97rem}
@@ -451,7 +462,9 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s1" data-n="1" aria-label="Grind">
     <div class="stage" id="top">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <p class="band echo e1 split fx-drift" data-a="0" data-b="1.01" data-first style="--drift:-3vw" aria-hidden="true">fresh</p>
+      <div class="blob b-bl" data-at=".1" aria-hidden="true"></div>
+      <p class="band echo e1 stack split fx-drift" data-a="0" data-b="1.01" data-first style="--drift:-2vw" aria-hidden="true">Ground the moment you order</p>
+      <span class="micro m-r" data-at=".3" aria-hidden="true">Burr by burr</span>
       <div class="band c1 scrim fx-drift" data-a="0" data-b="1.01" data-first>
         <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M16 9h2.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 2.5v2M12 2.5v2"/></svg></span>
         <span class="crumb">Afterdunes Café <i>/</i> Happy Hearts</span>
@@ -505,11 +518,14 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s3" data-n="3" aria-label="Pour">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <p class="band echo e3 split fx-drift" data-a=".02" data-b="1.01" style="--drift:-2.5vw" aria-hidden="true">slow</p>
+      <div class="blob b-br" data-at=".12" aria-hidden="true"></div>
+      <p class="band echo e3 stack split fx-drift" data-a=".02" data-b="1.01" style="--drift:-1.5vw" aria-hidden="true">Hot water a slow spiral three quiet minutes</p>
+      <span class="micro m-l" data-at=".3" aria-hidden="true">No rush</span>
+      <span class="micro m-r" data-at=".36" aria-hidden="true">Why it never turns bitter</span>
+      <span class="inset i-r" data-at=".44" aria-hidden="true"><img src="assets/menu-coldbrew.jpg" alt="" loading="lazy" width="800" height="1000"></span>
       <div class="band c3 scrim fx-drift" data-a=".04" data-b="1.01">
         <span class="crumb">Chapter three <i>/</i> Brewed slow</span>
         <h2 class="disp split">Pour</h2>
-        <svg class="arrow" viewBox="0 0 260 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 14 C60 4 150 20 252 9 M240 3 252 9 242 17"/></svg>
       </div>
       <div class="band c3b scrim fx-drift" data-a=".34" data-b="1.01">
         <p class="lede sub">Hot water, a slow spiral, and three quiet minutes. Your coffee is never rushed.</p>
@@ -522,7 +538,10 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s4" data-n="4" aria-label="Sip">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <p class="band echo e4 lift split fx-rise" data-a=".4" data-b="1.01" style="--drift:2vw" aria-hidden="true">deep</p>
+      <div class="blob b-br" data-at=".44" aria-hidden="true"></div>
+      <p class="band echo e4 lift stack split fx-rise" data-a=".4" data-b="1.01" style="--drift:1.5vw" aria-hidden="true">Deep and smooth never bitter</p>
+      <span class="micro m-r on-dark" data-at=".46" aria-hidden="true">The first sip tells you</span>
+      <span class="inset i-r" data-at=".5" aria-hidden="true"><img src="assets/menu-cappuccino.jpg" alt="" loading="lazy" width="800" height="1000"></span>
       <div class="band c4 dark fx-punch" data-a=".42" data-b="1.01">
         <h2 class="disp split">Sip</h2>
         <p class="lede sub">Smooth, fresh and never bitter. You can taste the difference on the first sip.</p>
@@ -535,7 +554,10 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
   <section class="scene" id="s5" data-n="5" aria-label="Find your cup">
     <div class="stage">
       <video muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
-      <p class="band echo e5 split fx-rise" data-a=".05" data-b="1.01" style="--drift:0vw" aria-hidden="true">cup</p>
+      <div class="blob b-bl" data-at=".14" aria-hidden="true"></div>
+      <p class="band echo e5 stack split fx-rise" data-a=".05" data-b="1.01" style="--drift:0vw" aria-hidden="true">Yours to keep</p>
+      <span class="micro m-l" data-at=".34" aria-hidden="true">Pick a favourite</span>
+      <span class="micro m-r" data-at=".4" aria-hidden="true">See you soon</span>
       <div class="band c5 fx-rise" data-a=".05" data-b="1.01">
         <span class="crumb">Chapter five <i>/</i> Yours to keep</span>
         <h2 class="disp split">Find your cup</h2>
