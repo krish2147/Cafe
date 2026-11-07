@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>After Dunes Cafe · Open until 2am · Alkapuri, Vadodara</title>
+<meta name="description" content="A cafe for the hours after. Open 8am to 2am every day on Alembic Gorwa Road, Alkapuri, Vadodara. Arabic Qahwa, Date Latte, Saffron Spanish Latte. All vegetarian.">
+<meta name="theme-color" content="#171723">
+<!-- DEPLOY STEP: replace both with the live absolute URL -->
+<meta property="og:title" content="After Dunes Cafe · Open until 2am">
+<meta property="og:description" content="A cafe for the hours after. Alembic Gorwa Road, Alkapuri, Vadodara. Open 8am to 2am, every day.">
+<meta property="og:image" content="assets/hero-ending.jpg">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171723'/%3E%3Cpath d='M4 45c10-15 21-15 31 0s16 13 29-1' stroke='%239A94A8' stroke-width='3.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='45' cy='29' r='5.4' fill='%23E4794A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap">
+<style>
+/* ============================================================
+   After Dunes Cafe
+   Palette sampled from the hero footage with ffmpeg.
+   ============================================================ */
+:root{
+  --canvas:#171723;
+  --canvas-deep:#0E0E16;
+  --dusk-blue:#1B2D4E;
+  --sand:#E8DECB;
+  --sand-deep:#D9CBB2;
+  --panel:#1F1F2E;
+  --olive:#4C5B3C;
+  --olive-light:#8C9A6E;
+  --walnut:#6B4A2F;
+  --amber:#D9935F;
+  --accent:#E4794A;
+  --accent-hover:#C85F33;
+  --accent-muted:rgba(228,121,74,.22);
+  --ember-deep:#B4451F;
+  --text-primary:#F4EDE1;
+  --text-secondary:#9A94A8;
+  --ink:#211B16;
+  --ink-secondary:#5B5042;
+
+  --f-dsp:"Syne","Trebuchet MS",sans-serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,monospace;
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.65,0,.35,1);
+
+  --tshadow:0 1px 2px rgba(5,5,10,.95),0 3px 12px rgba(5,5,10,.78),0 10px 44px rgba(5,5,10,.8);
+
+  --gl:max(20px, env(safe-area-inset-left,0px));
+  --gr:max(20px, env(safe-area-inset-right,0px));
+  --maxw:1280px;
+}
+
+*{box-sizing:border-box}
+html{overflow-x:hidden;overflow-x:clip;background:var(--canvas);scroll-behavior:smooth}
+body{margin:0;overflow-x:hidden;overflow-x:clip;background:var(--canvas);color:var(--text-primary);
+     font-family:var(--f-body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+     text-rendering:optimizeLegibility}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+h1,h2,h3{margin:0;font-family:var(--f-dsp);font-weight:800;line-height:.98;letter-spacing:-.02em}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+.skip{position:absolute;left:-9999px;top:0;z-index:999;background:var(--accent);color:#1a1208;
+      padding:12px 18px;border-radius:0 0 10px 0;font-weight:600}
+.skip:focus{left:0}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+.mono{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.17em;text-transform:uppercase}
+.kicker{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+        color:var(--text-secondary)}
+.sand .kicker{color:var(--ink-secondary)}
+
+/* ---------- the fixed environment layer ---------- */
+.env{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.env-glow{position:absolute;inset:-25%;
+  background:radial-gradient(60% 50% at 24% 18%, rgba(27,45,78,.55) 0%, rgba(27,45,78,0) 62%),
+             radial-gradient(52% 44% at 82% 80%, rgba(228,121,74,.1) 0%, rgba(228,121,74,0) 65%);
+  animation:envdrift 96s var(--ease-io) -24s infinite alternate}
+@keyframes envdrift{from{transform:translate3d(-2.5%,-1.5%,0) scale(1.02)}
+                    to{transform:translate3d(2.5%,2%,0) scale(1.07)}}
+.env-grain{position:absolute;inset:-60px;opacity:.5;
+  background-image:
+    radial-gradient(circle at 12% 22%, rgba(244,237,225,.07) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 63% 71%, rgba(244,237,225,.055) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 36% 85%, rgba(228,121,74,.05) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 87% 34%, rgba(244,237,225,.05) 0 1px, transparent 1.6px);
+  background-size:190px 190px,250px 250px,310px 310px,170px 170px;
+  animation:graindrift 90s linear -30s infinite}
+@keyframes graindrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-190px,-250px,0)}}
+main,.nav,footer{position:relative;z-index:1}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:20px;
+     padding:14px var(--gr) 14px var(--gl);
+     background:linear-gradient(180deg,rgba(14,14,22,.78) 0%,rgba(14,14,22,.4) 55%,rgba(14,14,22,0) 100%);
+     transition:background .5s var(--ease-out),backdrop-filter .5s var(--ease-out)}
+.nav.solid{background:rgba(14,14,22,.88);backdrop-filter:blur(14px) saturate(1.1);
+           border-bottom:1px solid rgba(154,148,168,.14)}
+.brand{font-family:var(--f-dsp);font-weight:800;font-size:1.02rem;letter-spacing:-.015em;
+       text-decoration:none;white-space:nowrap}
+.brand .mono{color:var(--text-secondary);margin-left:8px;font-weight:400}
+.nav-links{margin-left:auto;display:flex;gap:26px}
+.nav-links a{font-size:.9rem;text-decoration:none;color:var(--text-secondary);
+             transition:color .3s var(--ease-out)}
+.nav-links a:hover{color:var(--text-primary)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+     font-family:var(--f-body);font-weight:600;font-size:.94rem;letter-spacing:.005em;
+     padding:13px 24px;border-radius:999px;text-decoration:none;white-space:nowrap;
+     background:var(--accent);color:#1d1308;border:1px solid transparent;
+     transition:background .34s var(--ease-out),transform .34s var(--ease-out),box-shadow .34s var(--ease-out);
+     box-shadow:0 8px 28px -12px rgba(228,121,74,.75)}
+.btn:hover{background:var(--accent-hover);transform:translateY(-2px);
+           box-shadow:0 14px 34px -12px rgba(228,121,74,.9)}
+.btn-sm{padding:9px 18px;font-size:.86rem}
+.btn-ghost{background:transparent;color:var(--text-primary);border-color:rgba(154,148,168,.45);
+           box-shadow:none}
+.btn-ghost:hover{background:rgba(154,148,168,.12);border-color:rgba(154,148,168,.75);box-shadow:none}
+.sand .btn-ghost{color:var(--ink);border-color:rgba(33,27,22,.34)}
+.sand .btn-ghost:hover{background:rgba(33,27,22,.07);border-color:rgba(33,27,22,.6)}
+.band .btn{text-shadow:none}
+@media (pointer:coarse){.btn{min-height:44px}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;height:800vh}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--canvas-deep)}
+.poster,.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.poster{background-size:cover;background-position:52% 58%;
+        transition:opacity .9s var(--ease-out)}
+.stage video{opacity:0;transition:opacity .9s var(--ease-out);
+             will-change:transform;transform:translateZ(0)}
+.stage.video-ready video{opacity:1}
+.stage.video-ready .poster{opacity:0}
+.stage.video-failed video{display:none}
+
+.scrim{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 125% 92% at 52% 44%, rgba(10,10,18,0) 34%, rgba(10,10,18,.64) 100%),
+             linear-gradient(180deg, rgba(10,10,18,.46) 0%, rgba(10,10,18,0) 24%)}
+
+/* loading ring */
+.loader{position:absolute;left:var(--gl);bottom:34px;width:48px;height:48px;color:var(--text-secondary);
+        transition:opacity .5s var(--ease-out)}
+.stage.video-ready .loader{opacity:0;pointer-events:none}
+.loader svg{width:48px;height:48px;transform:rotate(-90deg)}
+.loader circle{transition:stroke-dashoffset .18s linear}
+.cue{position:absolute;left:var(--gl);bottom:40px;display:flex;align-items:center;gap:11px;
+     color:var(--text-secondary);opacity:0;transition:opacity .6s var(--ease-out)}
+.stage.video-ready .cue,.stage.video-failed .cue{opacity:1}
+.stage.moved .cue{opacity:0}
+.cue-line{display:block;width:1px;height:34px;background:linear-gradient(180deg,var(--text-secondary),transparent);
+          animation:cuedrop 2.8s var(--ease-io) -.6s infinite}
+@keyframes cuedrop{0%,100%{transform:translateY(-5px);opacity:.35}50%{transform:translateY(5px);opacity:1}}
+
+/* ---------- caption bands ---------- */
+.bands{position:absolute;inset:0}
+.band{position:absolute;inset:0;display:grid;align-content:center;justify-items:start;
+      padding:0 var(--gr) 0 var(--gl);opacity:0;will-change:opacity;
+      text-shadow:var(--tshadow)}
+.band::before{content:"";position:absolute;inset:-6%;pointer-events:none;z-index:-1;
+  opacity:calc(.26 + .74*var(--k,1));
+  background:radial-gradient(ellipse 72% 60% at 30% 50%,
+             rgba(5,5,10,.66) 0%, rgba(5,5,10,.44) 46%, rgba(5,5,10,0) 76%)}
+.band[data-peak="hook"]::before{
+  background:radial-gradient(ellipse 74% 62% at 30% 50%,
+             rgba(5,5,10,.72) 0%, rgba(5,5,10,.48) 46%, rgba(5,5,10,0) 76%)}
+.band[data-peak="bright"]::before{
+  background:radial-gradient(ellipse 78% 64% at 30% 50%,
+             rgba(5,5,10,.80) 0%, rgba(5,5,10,.56) 46%, rgba(5,5,10,0) 78%)}
+.band > *{pointer-events:auto}
+.band .inner{max-width:min(760px,86vw)}
+.chip{display:inline-block;background:rgba(8,8,15,.5);border:1px solid rgba(154,148,168,.28);
+      border-radius:999px;padding:7px 14px;backdrop-filter:blur(10px);
+      text-shadow:0 1px 3px rgba(5,5,10,.85);color:var(--text-primary)}
+
+.h-xl{font-size:clamp(3rem,11.5vw,8.6rem);letter-spacing:-.035em}
+.h-lg{font-size:clamp(2.1rem,6.6vw,5rem);letter-spacing:-.028em}
+.h-md{font-size:clamp(1.75rem,5vw,3.6rem);letter-spacing:-.022em}
+.lede{font-size:clamp(1rem,2vw,1.3rem);color:var(--text-primary);opacity:.9;
+      max-width:34ch;margin-top:18px}
+
+/* split-text machinery */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.vis{display:block}
+.w{display:inline-block;white-space:nowrap}
+.w + .w{margin-left:.26em}
+.c{display:inline-block;will-change:transform,opacity}
+
+/* (a) drift-down : band 1 */
+[data-fx="drift"] .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * -26px))}
+/* (b) approach-from-depth : band 2 line 1 */
+[data-fx="depth"] .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:scale(calc(.84 + .16*var(--kc)))}
+/* (c) word-punch with overshoot : band 2 line 2 */
+[data-fx="punch"] .w{
+  --kc:clamp(0,(var(--k,0) - var(--th,0))*3,1);
+  --ks:clamp(0,(var(--k,0) - var(--th,0) - var(--sd,.1))*var(--ss,3.2),1);
+  opacity:var(--kc);
+  transform:scale(calc(.62 + (.38 + var(--ov,.12))*var(--kc) - var(--ov,.12)*var(--ks)))}
+[data-fx="punch"] .w.em{--ov:.24;--sd:.16;--ss:2.6;color:var(--accent)}
+/* (d) blur-to-sharp : band 3 line 1 */
+.b2s{position:relative;display:block}
+.b2s .soft{position:absolute;inset:0;filter:blur(11px);opacity:calc(1 - var(--k,0));
+           pointer-events:none}
+.b2s .sharp{opacity:var(--k,0)}
+/* band 3 line 2 arrives as the lamps take over */
+[data-fx="takeover"]{--kt:clamp(0,(var(--k,0) - .42)*2.2,1);opacity:var(--kt);
+  transform:translateY(calc((1 - var(--kt)) * 14px));color:var(--amber)}
+/* (e) scatter : band 4 */
+[data-fx="scatter"] .c{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.6,1);opacity:var(--kc);
+  transform:translate(calc((1 - var(--kc))*var(--jx,0px)),calc((1 - var(--kc))*var(--jy,0px)))
+            rotate(calc((1 - var(--kc))*var(--jr,0deg)))}
+/* (f) staged settle : band 5 */
+[data-fx="settle"] .w{--kc:clamp(0,(var(--k,0) - var(--th,0))*2.8,1);opacity:var(--kc);
+  transform:translateY(calc((1 - var(--kc)) * 30px))}
+.settle-sub{--ks:clamp(0,(var(--k,0) - .62)*3.6,1);opacity:var(--ks);
+  transform:translateY(calc((1 - var(--ks)) * 16px))}
+.settle-row{--kb:clamp(0,(var(--k,0) - .76)*4.4,1);opacity:var(--kb);
+  transform:translateY(calc((1 - var(--kb)) * 16px));
+  display:flex;flex-wrap:wrap;gap:13px;margin-top:30px}
+
+/* ---------- static hero (phones, reduced motion) ---------- */
+.hero-static{display:none;position:relative;background:var(--canvas);overflow:hidden}
+.hero-static .shot{position:relative;width:100%;height:clamp(300px,54svh,520px);overflow:hidden}
+.hero-static .bg{position:absolute;inset:0;background-size:cover;background-position:56% 56%}
+.hero-static .shot::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,14,22,.55) 0%,rgba(14,14,22,.05) 22%,
+             rgba(23,23,35,.12) 52%,rgba(23,23,35,.78) 86%,var(--canvas) 100%)}
+.hero-static .inner{position:relative;display:grid;justify-items:start;
+  padding:clamp(22px,5vw,34px) var(--gr) clamp(54px,11vw,78px) var(--gl)}
+.hero-static h1{font-size:clamp(3.1rem,15vw,5.4rem);letter-spacing:-.04em}
+.hero-static .lede{max-width:30ch}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section[class*="sec-"]{position:relative;padding:clamp(80px,11vw,152px) 0}
+.sand{background:var(--sand);color:var(--ink)}
+.sand .lede,.sand p{color:var(--ink-secondary)}
+.night{background:var(--canvas-deep)}
+/* ch resolves against the font the element inherits, so the cap goes on the text element,
+   never on the container. A container cap in ch measures in the wrong font and breaks
+   display headlines into a narrow stack. */
+.sec-head{max-width:min(940px,93vw)}
+.sec-head h2{margin-top:16px;max-width:17ch}
+.sec-head h2.h-lg{max-width:13ch}
+.sec-head .lede{color:var(--text-secondary);margin-top:22px;max-width:52ch}
+.sand .sec-head .lede{color:var(--ink-secondary)}
+section[id]{scroll-margin-top:86px}
+
+/* entrance choreography */
+.rise{opacity:0;transform:translateY(26px);
+      transition:opacity .85s var(--ease-out),transform .85s var(--ease-out)}
+.in .rise,.rise.in{opacity:1;transform:none}
+.in .rise:nth-child(2){transition-delay:.09s}
+.in .rise:nth-child(3){transition-delay:.18s}
+.in .rise:nth-child(4){transition-delay:.27s}
+.in .rise:nth-child(5){transition-delay:.36s}
+.in .rise:nth-child(6){transition-delay:.45s}
+/* retire the stagger once the entrance has run, with matching specificity */
+.in.done .rise:nth-child(2),.in.done .rise:nth-child(3),.in.done .rise:nth-child(4),
+.in.done .rise:nth-child(5),.in.done .rise:nth-child(6),.in.done .rise{transition-delay:0s!important}
+
+/* ---------- the hand-drawn ridge ---------- */
+.ridge{display:block;width:100%;height:auto;overflow:visible}
+.ridge path{fill:none;stroke:var(--text-secondary);stroke-width:1.4;stroke-linecap:round;opacity:.42;
+            stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--draw,0))}
+.sand .ridge path{stroke:var(--ink-secondary);opacity:.3}
+.ridge .lit{stroke:var(--accent);opacity:.85;stroke-width:1.8}
+
+/* ---------- 1. the hours ---------- */
+.hours-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(36px,6vw,88px);align-items:end;
+            margin-top:clamp(38px,5vw,66px)}
+.tiles{display:grid;gap:14px}
+.tile{display:flex;align-items:baseline;gap:16px;padding:18px 22px;border-radius:16px;
+      background:var(--panel);border:1px solid rgba(154,148,168,.16);position:relative;overflow:hidden}
+.tile::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(70% 150% at 12% 0%, rgba(228,121,74,.17), transparent 70%)}
+.vis-on .tile::after{animation:tileglow 9s var(--ease-io) -3s infinite alternate}
+@keyframes tileglow{from{opacity:.2}to{opacity:.85}}
+.tile b{font-family:var(--f-dsp);font-weight:800;font-size:clamp(1.8rem,3.6vw,2.7rem);
+        letter-spacing:-.03em;line-height:1}
+.tile span{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+           color:var(--text-secondary)}
+.big-hours{font-family:var(--f-dsp);font-weight:800;letter-spacing:-.035em;line-height:1;
+           font-size:clamp(2.1rem,5.4vw,4.2rem);white-space:nowrap}
+.big-hours em{font-style:normal;font-size:.46em;color:var(--text-secondary);
+              letter-spacing:.02em;margin-left:.04em}
+.big-hours i{font-style:normal;font-size:.4em;color:var(--text-secondary);
+             margin:0 .34em;position:relative;top:-.12em}
+
+/* ---------- 2. the hour dial (signature) ---------- */
+.sec-dial{overflow:hidden}
+.dial-sky{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(175deg, rgba(228,121,74,.2) 0%, rgba(217,147,95,.1) 34%, rgba(27,45,78,.06) 72%, transparent 100%);
+  opacity:calc(1 - var(--hold,0))}
+.dial-night{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(175deg, rgba(14,14,22,.8) 0%, rgba(27,45,78,.3) 50%, transparent 100%);
+  opacity:var(--hold,0)}
+.dial-wrap{position:relative;margin-top:clamp(26px,3.2vw,40px)}
+.dial svg{display:block;width:100%;height:auto;overflow:visible}
+.dial .track{fill:none;stroke:rgba(154,148,168,.34);stroke-width:1.6;stroke-linecap:round}
+.dial .after{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;opacity:.9}
+.dial .trail{fill:none;stroke:var(--amber);stroke-width:4.4;stroke-linecap:round;opacity:.95}
+.dial .tick{stroke:rgba(154,148,168,.5);stroke-width:1.4;stroke-linecap:round}
+.dial .lbl{fill:var(--text-secondary);font-family:var(--f-mono);font-size:15px;letter-spacing:.1em}
+.dial .nowdot{fill:var(--text-primary)}
+.dial .nowhalo{fill:none;stroke:var(--text-primary);stroke-width:1.4;opacity:.5}
+.vis-on .dial .nowhalo{animation:halo 5.5s var(--ease-io) -1.8s infinite}
+@keyframes halo{0%,100%{r:9;opacity:.55}50%{r:15;opacity:0}}
+.dial .sundot{fill:var(--amber);filter:drop-shadow(0 0 9px rgba(217,147,95,.85))}
+.readout{margin-top:26px;display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--f-mono);font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;
+  background:rgba(8,8,15,.55);border:1px solid rgba(154,148,168,.3);border-radius:999px;
+  padding:11px 18px;backdrop-filter:blur(10px)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--olive-light);flex:none}
+.dot.open{background:var(--accent);box-shadow:0 0 0 0 var(--accent-muted)}
+.vis-on .dot.open{animation:pulse 3.4s var(--ease-io) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(228,121,74,.6)}70%,100%{box-shadow:0 0 0 11px rgba(228,121,74,0)}}
+.hold-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:30px}
+.hold-btn{position:relative;display:inline-flex;align-items:center;gap:13px;padding:15px 28px;
+  border-radius:999px;border:1px solid rgba(154,148,168,.45);overflow:hidden;
+  font-weight:600;user-select:none;-webkit-user-select:none;touch-action:none;
+  transition:border-color .35s var(--ease-out)}
+.hold-btn:hover{border-color:rgba(154,148,168,.8)}
+.hold-btn .fill{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--accent-muted);
+  transform-origin:left;transform:scaleX(var(--hold,0));pointer-events:none}
+.hold-btn .lab{position:relative}
+.hold-hint{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--text-secondary)}
+.afters{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:clamp(30px,3.6vw,46px)}
+.after-card{padding:26px;border-radius:18px;background:var(--panel);
+  border:1px solid rgba(154,148,168,.16);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .75s var(--ease-out),transform .75s var(--ease-out)}
+.dial-done .after-card{opacity:1;transform:none}
+.dial-done .after-card:nth-child(2){transition-delay:.14s}
+.dial-done .after-card:nth-child(3){transition-delay:.28s}
+.after-card h3{font-size:1.22rem;letter-spacing:-.015em;margin-bottom:10px}
+.after-card .t{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;color:var(--accent);
+               display:block;margin-bottom:13px}
+.after-card p{color:var(--text-secondary);font-size:.97rem}
+
+/* ---------- 3. the menu ---------- */
+.spec{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(30px,4vw,46px)}
+.spec-card{position:relative;padding:28px 24px 24px;border-radius:18px;background:var(--sand-deep);
+  border:1px solid rgba(33,27,22,.12);overflow:hidden;
+  transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out)}
+.spec-card:hover{transform:translateY(-4px);box-shadow:0 20px 44px -26px rgba(33,27,22,.55)}
+.spec-card::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(76% 120% at 85% 0%, rgba(228,121,74,.2), transparent 68%);opacity:.25}
+.vis-on .spec-card::after{animation:specglow 11s var(--ease-io) -4s infinite alternate}
+@keyframes specglow{from{opacity:.14}to{opacity:.62}}
+.spec-card h3{font-size:1.16rem;letter-spacing:-.012em;position:relative;min-height:2.3em}
+.spec-card .price{font-family:var(--f-mono);font-weight:700;font-size:.96rem;color:var(--ember-deep);
+                  display:block;margin:12px 0 10px;position:relative}
+.spec-card p{font-size:.93rem;position:relative}
+
+.plates{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.plate{border-radius:18px;overflow:hidden;background:var(--sand-deep);
+  border:1px solid rgba(33,27,22,.12);display:flex;flex-direction:column;
+  transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out)}
+.plate:hover{transform:translateY(-4px);box-shadow:0 20px 44px -26px rgba(33,27,22,.55)}
+.plate .shot{aspect-ratio:4/3;overflow:hidden;background:#cdbda2}
+.plate .shot img{width:100%;height:100%;object-fit:cover;
+                 transition:transform 1.1s var(--ease-out)}
+.plate:hover .shot img{transform:scale(1.045)}
+.plate .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:9px;flex:1}
+.plate .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.plate h3{font-size:1.07rem;letter-spacing:-.01em}
+.plate .price{font-family:var(--f-mono);font-weight:700;font-size:.93rem;color:var(--ember-deep);
+              flex:none}
+.plate p{font-size:.92rem}
+
+.colds{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;
+       border-top:1px solid rgba(33,27,22,.16)}
+.cold{padding:20px 18px 20px 0;border-bottom:1px solid rgba(33,27,22,.16)}
+.cold .row{display:flex;align-items:baseline;justify-content:space-between;gap:14px}
+.cold h3{font-size:.99rem;letter-spacing:-.008em}
+.cold .price{font-family:var(--f-mono);font-weight:700;font-size:.9rem;color:var(--ember-deep)}
+.cold p{font-size:.88rem;margin-top:7px}
+.note{margin-top:28px;font-size:.93rem}
+.note a{color:var(--ember-deep);text-decoration-thickness:1px;text-underline-offset:3px}
+
+/* ---------- 4. the room ---------- */
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:clamp(34px,4.4vw,56px)}
+.shotbox{border-radius:18px;overflow:hidden;background:var(--sand-deep);position:relative}
+.shotbox img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out)}
+.shotbox:hover img{transform:scale(1.035)}
+.g1{grid-column:span 7;aspect-ratio:4/3}
+.g2{grid-column:span 5;aspect-ratio:1/1;align-self:end}
+.g3{grid-column:4/span 6;aspect-ratio:4/3}
+.cap{font-family:var(--f-mono);font-size:.67rem;letter-spacing:.15em;text-transform:uppercase;
+     color:var(--ink-secondary);margin-top:11px}
+
+/* ---------- 5. what people say ---------- */
+.quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:clamp(34px,4.4vw,54px)}
+.quote{padding:30px;border-radius:18px;background:var(--panel);
+       border:1px solid rgba(154,148,168,.16);position:relative}
+.quote p{font-size:1.07rem;color:var(--text-primary);line-height:1.52}
+.quote .mono{display:block;margin-top:16px;color:var(--text-secondary)}
+.quote::before{content:"\201C";position:absolute;right:22px;top:4px;
+  font-family:var(--f-dsp);font-weight:800;font-size:4.4rem;line-height:1;
+  color:var(--accent);opacity:.18;pointer-events:none}
+.scores{display:flex;flex-wrap:wrap;gap:26px;margin-top:30px;align-items:baseline}
+.score b{font-family:var(--f-dsp);font-weight:800;font-size:1.7rem;letter-spacing:-.03em}
+.score span{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+            color:var(--text-secondary);margin-left:9px}
+
+/* ---------- 6. faq ---------- */
+.faq{margin-top:clamp(30px,4vw,48px);border-top:1px solid rgba(154,148,168,.2)}
+.qa{border-bottom:1px solid rgba(154,148,168,.2)}
+.qa summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;
+  font-family:var(--f-dsp);font-weight:700;font-size:clamp(1.02rem,2vw,1.26rem);letter-spacing:-.012em;
+  transition:color .3s var(--ease-out)}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:hover{color:var(--accent)}
+.qa summary::after{content:"";position:absolute;right:6px;top:50%;width:13px;height:13px;
+  margin-top:-7px;border-right:1.8px solid var(--text-secondary);border-bottom:1.8px solid var(--text-secondary);
+  transform:rotate(45deg) translateY(-3px);transition:transform .4s var(--ease-out)}
+.qa[open] summary::after{transform:rotate(-135deg) translateY(-3px)}
+.qa .a{padding:0 0 24px;color:var(--text-secondary);max-width:62ch}
+
+/* ---------- 7. book ---------- */
+.sec-book{text-align:left;position:relative;overflow:hidden}
+.lampglow{position:absolute;left:50%;bottom:-32%;width:min(1100px,130vw);aspect-ratio:1;
+  transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(circle, rgba(228,121,74,.2) 0%, rgba(228,121,74,0) 62%)}
+.vis-on .lampglow{animation:lamp 13s var(--ease-io) -5s infinite alternate}
+@keyframes lamp{from{opacity:.5;transform:translateX(-50%) scale(.94)}
+                to{opacity:1;transform:translateX(-50%) scale(1.07)}}
+.book-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(36px,6vw,80px);
+           align-items:start;margin-top:clamp(34px,4.4vw,56px)}
+.book-actions{display:flex;flex-wrap:wrap;gap:13px;margin-top:30px}
+.facts{display:grid;gap:0;border-top:1px solid rgba(154,148,168,.2)}
+.fact{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0;
+      border-bottom:1px solid rgba(154,148,168,.2);align-items:baseline}
+.fact dt{font-family:var(--f-mono);font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;
+         color:var(--text-secondary)}
+.fact dd{margin:0;font-size:1rem}
+.fact a{color:var(--text-primary);text-decoration-color:rgba(154,148,168,.5);text-underline-offset:3px}
+.fact a:hover{color:var(--accent)}
+
+/* ---------- footer ---------- */
+footer{background:var(--canvas-deep);border-top:1px solid rgba(154,148,168,.14);
+       padding:56px 0 46px;color:var(--text-secondary);font-size:.9rem}
+.foot-grid{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;align-items:flex-start}
+footer a{color:var(--text-secondary);text-underline-offset:3px}
+footer a:hover{color:var(--text-primary)}
+.disclose{margin-top:30px;padding-top:22px;border-top:1px solid rgba(154,148,168,.12);
+          font-size:.82rem;max-width:72ch;opacity:.8}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1040px){
+  .spec{grid-template-columns:repeat(2,1fr)}
+  .colds{grid-template-columns:repeat(2,1fr)}
+  .plates{grid-template-columns:repeat(2,1fr)}
+  .hours-grid,.book-grid{grid-template-columns:1fr;align-items:start}
+  .afters{grid-template-columns:1fr;gap:14px}
+  .quotes{grid-template-columns:1fr}
+  .g1,.g2,.g3{grid-column:span 12}
+  .g2{aspect-ratio:4/3}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  .nav-links{display:none}
+  .nav{gap:10px;padding-top:11px;padding-bottom:11px}
+  .brand{font-size:.95rem}
+  .brand .mono{display:none}
+  .nav .btn-sm{margin-left:auto;padding:9px 15px;font-size:.82rem}
+  .spec,.plates,.colds{grid-template-columns:1fr}
+  .cold{padding-right:0}
+  .fact{grid-template-columns:1fr;gap:4px;padding:14px 0}
+}
+/* short screens: the small scroll-driven overlays have no room */
+@media (max-height:560px){.cue,.loader{display:none}}
+
+/* ============================================================
+   THE FIVE STATIC-HERO GATES
+   These five strings must match the JS list character for character.
+   ============================================================ */
+@media (max-width: 720px),
+       (orientation: portrait) and (max-width: 1024px),
+       (orientation: portrait) and (pointer: coarse),
+       (orientation: landscape) and (pointer: coarse) and (max-height: 560px),
+       (prefers-reduced-motion: reduce){
+  .hero{display:none}
+  .hero-static{display:block}
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important;
+                       transition-delay:0s!important;animation-delay:0s!important}
+  .rise{opacity:1!important;transform:none!important}
+  .after-card{opacity:1!important;transform:none!important}
+  .ridge path{stroke-dashoffset:0!important}
+  .hold-btn .fill{transform:scaleX(1)!important}
+  .dial-sky{opacity:0!important}
+  .dial-night{opacity:1!important}
+}
+/* pause every loop on a hidden tab; reaches pseudo-elements too */
+body.paused *,body.paused *::before,body.paused *::after{animation-play-state:paused!important}
+</style>
+</head>
+<body>
+
+<div class="env" aria-hidden="true"><div class="env-glow"></div><div class="env-grain"></div></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top">After Dunes<span class="mono">&middot; Vadodara</span></a>
+  <div class="nav-links">
+    <a href="#menu">Menu</a>
+    <a href="#room">The room</a>
+    <a href="#faq">Questions</a>
+  </div>
+  <a class="btn btn-sm" href="#book">Book a table</a>
+</nav>
+
+<main id="main" tabindex="-1">
+
+<!-- ===================== HERO (scrub) ===================== -->
+<section class="hero" id="top" aria-label="After Dunes Cafe">
+  <div class="stage" id="stage">
+    <div class="poster" id="poster" aria-hidden="true"></div>
+    <video id="hero" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
+    <div class="scrim" aria-hidden="true"></div>
+
+    <div class="loader" id="loader" aria-hidden="true">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor"
+        stroke-width="2.4" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
+    </div>
+    <div class="cue" id="cue" aria-hidden="true">
+      <span class="cue-line"></span><span class="mono">Scroll</span>
+    </div>
+
+    <div class="bands" id="bands">
+
+      <div class="band" data-a="0" data-b="0.17" data-first="1">
+        <div class="inner">
+          <p class="kicker chip">Alkapuri · Vadodara</p>
+          <h1 class="h-xl split" data-fx="drift" style="margin-top:22px">After Dunes</h1>
+          <p class="lede">A cafe for the hours after.</p>
+        </div>
+      </div>
+
+      <div class="band" data-a="0.21" data-b="0.38" data-peak="hook">
+        <div class="inner">
+          <p class="h-lg split" data-fx="depth">The sun quits at seven.</p>
+          <p class="h-lg split" data-fx="punch" data-em="two" style="margin-top:.12em">We pour until two.</p>
+        </div>
+      </div>
+
+      <div class="band" data-a="0.42" data-b="0.59">
+        <div class="inner">
+          <p class="h-lg b2s">
+            <span class="sr">The light goes.</span>
+            <span class="soft" aria-hidden="true">The light goes.</span>
+            <span class="sharp" aria-hidden="true">The light goes.</span>
+          </p>
+          <p class="h-lg" data-fx="takeover" style="margin-top:.1em">Ours comes on.</p>
+        </div>
+      </div>
+
+      <div class="band" data-a="0.63" data-b="0.80" data-peak="bright">
+        <div class="inner">
+          <p class="h-md split" data-fx="scatter" data-spread="0.5">Past the last dune,</p>
+          <p class="h-md split" data-fx="scatter" data-spread="0.5" style="margin-top:.1em">the lamps are still on.</p>
+        </div>
+      </div>
+
+      <div class="band" data-a="0.84" data-b="1" data-last="1">
+        <div class="inner">
+          <h2 class="h-xl split" data-fx="settle">Come after.</h2>
+          <p class="lede settle-sub">Open 8am to 2am, every day.<br>Alembic Gorwa Road, Vadodara.</p>
+          <div class="settle-row">
+            <a class="btn" href="#book">Book a table</a>
+            <a class="btn btn-ghost" href="tel:+919726864562">Call the cafe</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HERO (static) ===================== -->
+<section class="hero-static" aria-label="After Dunes Cafe">
+  <div class="shot" aria-hidden="true"><div class="bg" id="staticBg"></div></div>
+  <div class="inner wrap">
+    <p class="kicker chip" style="justify-self:start">Alkapuri · Vadodara</p>
+    <h1 class="h-xl" style="margin-top:20px">Come after.</h1>
+    <p class="lede">After Dunes pours from 8 in the morning until 2 at night. Every day.</p>
+    <div class="settle-row" style="opacity:1;transform:none">
+      <a class="btn" href="#book">Book a table</a>
+      <a class="btn btn-ghost" href="tel:+919726864562">Call the cafe</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 1. THE HOURS ===================== -->
+<section class="sec-hours" id="hours">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">Why after</p>
+      <h2 class="h-md rise">Most cafes in Alkapuri are stacking chairs by eleven.</h2>
+    </div>
+    <div class="hours-grid">
+      <div>
+        <p class="big-hours rise">8<em>am</em><i>to</i>2<em>am</em></p>
+        <p class="lede rise" style="max-width:46ch">We open at eight in the morning and we pour until two at
+          night, seven days a week. The late hours are not an afterthought. They are the whole reason
+          for the name.</p>
+        <svg class="ridge rise" viewBox="0 0 600 54" aria-hidden="true" style="margin-top:34px">
+          <path d="M2 44C70 44 96 14 150 14s78 28 136 28 84-32 148-32 86 30 164 24" pathLength="1"/>
+        </svg>
+      </div>
+      <div class="tiles">
+        <div class="tile rise"><b data-count="4.5">4.5</b><span>Ambience</span></div>
+        <div class="tile rise"><b data-count="4.5">4.5</b><span>Service</span></div>
+        <div class="tile rise"><b data-count="211">211</b><span>Ratings</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. THE HOUR DIAL ===================== -->
+<section class="sec-dial" id="dial">
+  <div class="dial-sky" aria-hidden="true"></div>
+  <div class="dial-night" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">The dial</p>
+      <h2 class="h-md rise">Hold it, and run the day down.</h2>
+      <p class="lede rise">Most of what makes this place worth the drive happens in the lit part of the
+        arc. Press and hold.</p>
+    </div>
+
+    <div class="dial-wrap rise">
+      <div class="dial">
+        <svg viewBox="0 96 1000 208" aria-hidden="true">
+          <path class="track" id="arcTrack" d="M60 248 Q500 28 940 248" pathLength="1"/>
+          <path class="after" id="arcAfter" d="M60 248 Q500 28 940 248" pathLength="1"
+                stroke-dasharray="0.417 0.583" stroke-dashoffset="-0.583"/>
+          <path class="trail" id="arcTrail" d="M60 248 Q500 28 940 248" pathLength="1"
+                stroke-dasharray="1" stroke-dashoffset="1"/>
+          <g id="ticks"></g>
+          <circle class="nowhalo" id="nowHalo" r="9"/>
+          <circle class="nowdot" id="nowDot" r="4.5"/>
+          <circle class="sundot" id="sunDot" r="8" style="opacity:0"/>
+        </svg>
+      </div>
+
+      <p class="readout" id="readout"><span class="dot" id="statusDot"></span><span id="readoutText">Checking the time in Vadodara</span></p>
+
+      <div class="hold-row">
+        <button class="hold-btn" id="holdBtn" aria-describedby="holdHint">
+          <span class="fill" aria-hidden="true"></span>
+          <span class="lab">Press and hold</span>
+        </button>
+        <span class="hold-hint" id="holdHint">Hold to run the sun down to 2am</span>
+      </div>
+    </div>
+
+    <div class="afters" id="afters">
+      <div class="after-card">
+        <span class="t">After work · 6pm</span>
+        <h3>The lamps beat the daylight</h3>
+        <p>The room is at its best right when the two swap over. Order something cold and take the
+          corner seat under the palm.</p>
+      </div>
+      <div class="after-card">
+        <span class="t">After dinner · 10pm</span>
+        <h3>Dessert and a long sit</h3>
+        <p>Nobody will rush you and nobody will come over asking whether you are ready to settle up.</p>
+      </div>
+      <div class="after-card">
+        <span class="t">After everything · 1am</span>
+        <h3>The quiet hour</h3>
+        <p>Half the room is working and the other half is talking. Last pour is two.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. THE MENU ===================== -->
+<section class="sec-menu sand" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">The menu</p>
+      <h2 class="h-md rise">Pictures. Prices. No surprises at the table.</h2>
+      <p class="lede rise">The thing people ask us for most is a menu that shows what arrives and what
+        it costs. Here it is. Everything on it is vegetarian.</p>
+    </div>
+
+    <p class="lede rise" style="margin-top:46px;max-width:44ch;color:var(--ink)">
+      <strong>Dunes Specialties.</strong> Four coffees you will not find down the road. This is the
+      part of the menu the name is about.</p>
+
+    <div class="spec">
+      <div class="spec-card rise">
+        <h3>Arabic Qahwa</h3><span class="price">₹255</span>
+        <p>Traditional Emirati coffee brewed with cardamom and saffron, served with dates.</p>
+      </div>
+      <div class="spec-card rise">
+        <h3>Date Latte</h3><span class="price">₹240</span>
+        <p>Espresso blended with date syrup and steamed milk.</p>
+      </div>
+      <div class="spec-card rise">
+        <h3>Saffron Spanish Latte</h3><span class="price">₹255</span>
+        <p>Espresso, condensed milk and saffron.</p>
+      </div>
+      <div class="spec-card rise">
+        <h3>Pistachio Rose Latte</h3><span class="price">₹250</span>
+        <p>Creamy pistachio mix with rose essence.</p>
+      </div>
+    </div>
+
+    <div class="plates">
+      <div class="plate rise">
+        <div class="shot"><img src="assets/dish-pesto.jpg" alt="Penne in a creamy pesto sauce, in a speckled cream bowl with a navy rim" loading="lazy" width="1334" height="1179"></div>
+        <div class="body">
+          <div class="row"><h3>Penne Crème Pesto</h3><span class="price">₹260</span></div>
+          <p>Penne in a creamy pesto sauce, with parmesan and chilli flakes.</p>
+        </div>
+      </div>
+      <div class="plate rise">
+        <div class="shot"><img src="assets/dish-alfredo.jpg" alt="Penne in a rich white sauce with herbs and tomato, in a speckled cream bowl" loading="lazy" width="1586" height="992"></div>
+        <div class="body">
+          <div class="row"><h3>Creamy Alfredo</h3><span class="price">₹280</span></div>
+          <p>Penne in a rich white sauce, finished with herbs and cracked pepper.</p>
+        </div>
+      </div>
+      <div class="plate rise">
+        <div class="body" style="padding-top:26px">
+          <div class="row"><h3>Saffron Risotto</h3><span class="price">₹316</span></div>
+          <p>A creamy Italian rice dish with saffron.</p>
+          <div class="row" style="margin-top:14px"><h3>Mezze Platter</h3><span class="price">₹275</span></div>
+          <p>A spread of small Middle Eastern dishes.</p>
+          <div class="row" style="margin-top:14px"><h3>Bombay Club Sandwich</h3><span class="price">₹195</span></div>
+          <p>A triple decker vegetable sandwich.</p>
+          <div class="row" style="margin-top:14px"><h3>Karak Chai Toast</h3><span class="price">₹230</span></div>
+          <p>Toasted bread filled with cream cheese, soaked in strong spiced karak chai.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="colds">
+      <div class="cold rise">
+        <div class="row"><h3>Vanilla Sand Iced Latte</h3><span class="price">₹255</span></div>
+        <p>Iced espresso with vanilla and salted caramel.</p>
+      </div>
+      <div class="cold rise">
+        <div class="row"><h3>Saigon Cold Brew</h3><span class="price">₹250</span></div>
+        <p>Cold brew sweetened with Vietnamese condensed milk.</p>
+      </div>
+      <div class="cold rise">
+        <div class="row"><h3>Rose Gold Iced Latte</h3><span class="price">₹255</span></div>
+        <p>Espresso, rose syrup and cardamom milk, topped with gold dust.</p>
+      </div>
+      <div class="cold rise">
+        <div class="row"><h3>Affogato</h3><span class="price">₹230</span></div>
+        <p>A scoop of ice cream drowned in a shot of espresso.</p>
+      </div>
+    </div>
+
+    <p class="note rise">About ₹1,200 for two on a normal visit. The full menu, all eleven sections of
+      it, is <a href="https://www.district.in/dining/vadodara/after-dunes-cafe-2-alkapuri" target="_blank" rel="noopener">on District</a>.</p>
+  </div>
+</section>
+
+<!-- ===================== 4. THE ROOM ===================== -->
+<section class="sec-room sand" id="room" style="padding-top:0">
+  <div class="wrap">
+    <div class="gallery">
+      <div style="grid-column:span 12">
+        <p class="kicker rise">The room</p>
+        <h2 class="h-md rise" style="margin-top:16px;max-width:19ch">The most photographed room on
+          Alembic Gorwa Road.</h2>
+      </div>
+      <div class="g1 shotbox rise">
+        <img src="assets/room-canopy.jpg" alt="The cafe interior: a jute canopy draped in waves across the ceiling, a date palm, rattan pendant lamps and olive green chairs" loading="lazy" width="1448" height="1086">
+      </div>
+      <div style="grid-column:span 5;align-self:center">
+        <p class="lede rise" style="max-width:30ch">A jute canopy waves across the ceiling like a dune.
+          Rattan lamps, olive leather, white ceramic cacti, a date palm standing in the middle of it.
+          People come in for a coffee and leave with a camera roll. We are glad about that.</p>
+      </div>
+      <div class="g2 shotbox rise">
+        <img src="assets/room-lamps.jpg" alt="Woven rattan pendant lamps over olive green chairs, beside a walnut shelf of white ceramic cacti" loading="lazy" width="1449" height="1085">
+      </div>
+      <div class="g3 shotbox rise">
+        <img src="assets/room-wide.jpg" alt="The wider room: the counter, the sandstone feature wall and tables under the jute canopy" loading="lazy" width="1448" height="1086">
+      </div>
+    </div>
+    <p class="cap rise">Alembic Gorwa Road · indoor seating · open until two</p>
+  </div>
+</section>
+
+<!-- ===================== 5. WHAT PEOPLE SAY ===================== -->
+<section class="sec-says" id="says">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">211 ratings</p>
+      <h2 class="h-md rise">In their words.</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote rise">
+        <p>Such a nice place and also the staff is very friendly.</p>
+        <span class="mono">Dining review · District</span>
+      </div>
+      <div class="quote rise">
+        <p>Great ambiance, food taste and quality top notch and amazing service by staff.</p>
+        <span class="mono">Dining review · District</span>
+      </div>
+      <div class="quote rise">
+        <p>Ambiance is well made, would stay for how well it themed.</p>
+        <span class="mono">Dining review · District</span>
+      </div>
+      <div class="quote rise">
+        <p>The beverages were all good.</p>
+        <span class="mono">Dining review · District</span>
+      </div>
+    </div>
+    <div class="scores rise">
+      <span class="score"><b>4.5</b><span>Ambience</span></span>
+      <span class="score"><b>4.5</b><span>Service</span></span>
+      <span class="score"><b>4.2</b><span>Food</span></span>
+      <span class="score"><b>4.4</b><span>Overall, 211 ratings</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6. QUESTIONS ===================== -->
+<section class="sec-faq" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">Questions</p>
+      <h2 class="h-md rise">Asked often enough to answer here.</h2>
+    </div>
+    <div class="faq rise">
+      <details class="qa"><summary>Are you really open until 2am?</summary>
+        <p class="a">Every day. Eight in the morning to a quarter to midnight, then midnight to two.
+          The kitchen slows down late but the counter does not.</p></details>
+      <details class="qa"><summary>What should I order?</summary>
+        <p class="a">Start with the Dunes Specialties. The Arabic Qahwa is brewed with cardamom and
+          saffron and comes with dates, and the Date Latte is the one people order twice. The plates
+          are Continental and built for a long sit rather than a quick one.</p></details>
+      <details class="qa"><summary>Is everything vegetarian?</summary>
+        <p class="a">Yes. There is no meat anywhere on the menu.</p></details>
+      <details class="qa"><summary>How much is it for two?</summary>
+        <p class="a">About ₹1,200 for two on a normal visit. Pre-booked tables carry a discount
+          through District.</p></details>
+      <details class="qa"><summary>Can I come on my own and work?</summary>
+        <p class="a">Yes, and plenty of people do, mostly after nine. Indoor seating, and the later it
+          gets the quieter it is.</p></details>
+      <details class="qa"><summary>Do I need to book?</summary>
+        <p class="a">Not on a weekday. Friday and Saturday after eight, yes. Booking also gets you the
+          table you actually want rather than the one that happens to be free.</p></details>
+      <details class="qa"><summary>Where exactly are you?</summary>
+        <p class="a">FF-105 and 106, Neptune Trion, Alembic Gorwa Road, Alkapuri, Vadodara, Gujarat.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 7. BOOK ===================== -->
+<section class="sec-book night" id="book">
+  <div class="lampglow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker rise">Book a table</p>
+      <h2 class="h-lg rise">The light is on.</h2>
+    </div>
+    <div class="book-grid">
+      <div>
+        <p class="lede rise">Two ways in, and both of them are real. Ring the counter, or hold a table
+          on District.</p>
+        <div class="book-actions rise">
+          <a class="btn" href="tel:+919726864562">Call +91 97268 64562</a>
+          <a class="btn btn-ghost" href="https://www.district.in/dining/vadodara/after-dunes-cafe-2-alkapuri" target="_blank" rel="noopener">Book a table on District</a>
+        </div>
+      </div>
+      <dl class="facts rise">
+        <div class="fact"><dt>Hours</dt><dd>8:00am to 11:45pm, then midnight to 2:00am. Every day.</dd></div>
+        <div class="fact"><dt>Address</dt><dd>FF-105 &amp; 106, Neptune Trion, Alembic Gorwa Road,
+          Alkapuri, Vadodara</dd></div>
+        <div class="fact"><dt>Phone</dt><dd><a href="tel:+919726864562">+91 97268 64562</a></dd></div>
+        <div class="fact"><dt>Getting here</dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;destination=22.3203184,73.1683360" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="brand" style="font-size:1.1rem;color:var(--text-primary)">After Dunes</p>
+        <p style="margin-top:9px">FF-105 &amp; 106, Neptune Trion<br>Alembic Gorwa Road, Alkapuri<br>Vadodara, Gujarat</p>
+      </div>
+      <div>
+        <p class="mono" style="color:var(--text-primary)">Hours</p>
+        <p style="margin-top:9px">Every day<br>8:00am to 11:45pm<br>12:00am to 2:00am</p>
+      </div>
+      <div>
+        <p class="mono" style="color:var(--text-primary)">Find us</p>
+        <p style="margin-top:9px">
+          <a href="tel:+919726864562">+91 97268 64562</a><br>
+          <a href="https://www.district.in/dining/vadodara/after-dunes-cafe-2-alkapuri" target="_blank" rel="noopener">Book on District</a><br>
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=22.3203184,73.1683360" target="_blank" rel="noopener">Directions</a>
+        </p>
+      </div>
+    </div>
+    <p class="disclose">The desert in the opening film is generated imagery, made to illustrate the
+      name. The photographs of the room and the plates are the cafe's own. Ratings and review quotes
+      are from the public District and Zomato listings.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   0. shared helpers
+   ============================================================ */
+var clamp = function(v,lo,hi){ return Math.min(hi, Math.max(lo, v)); };
+var smoothstep = function(p,e0,e1){
+  var t = clamp((p - e0) / (e1 - e0), 0, 1);
+  return t * t * (3 - 2 * t);
+};
+function rng(seed){
+  var s = seed >>> 0;
+  return function(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+}
+
+/* ============================================================
+   1. split headline text into word and character spans, once
+   ============================================================ */
+var rand = rng(20261106);
+function splitAll(){
+  var nodes = document.querySelectorAll('.split');
+  for (var n = 0; n < nodes.length; n++){
+    var el = nodes[n];
+    var text = el.textContent.trim();
+    var fx = el.getAttribute('data-fx');
+    var emWord = (el.getAttribute('data-em') || '').toLowerCase();
+    var spread = parseFloat(el.getAttribute('data-spread') || '0');
+
+    var sr = document.createElement('span');
+    sr.className = 'sr'; sr.textContent = text;
+
+    var vis = document.createElement('span');
+    vis.className = 'vis'; vis.setAttribute('aria-hidden','true');
+
+    var words = text.split(/\s+/);
+    var totalChars = text.replace(/\s+/g,'').length;
+    var charIndex = 0;
+
+    for (var w = 0; w < words.length; w++){
+      var ws = document.createElement('span');
+      ws.className = 'w';
+      var bare = words[w].toLowerCase().replace(/[^a-z0-9]/g,'');
+      if (emWord && bare === emWord) ws.classList.add('em');
+
+      if (fx === 'scatter'){
+        for (var c = 0; c < words[w].length; c++){
+          var cs = document.createElement('span');
+          cs.className = 'c';
+          cs.textContent = words[w][c];
+          var th = spread ? (charIndex / Math.max(1,totalChars)) * spread + rand() * 0.06
+                          : rand() * 0.5;
+          cs.style.setProperty('--th', th.toFixed(3));
+          cs.style.setProperty('--jx', ((rand() - 0.5) * 70).toFixed(1) + 'px');
+          cs.style.setProperty('--jy', ((rand() - 0.5) * 56).toFixed(1) + 'px');
+          cs.style.setProperty('--jr', ((rand() - 0.5) * 34).toFixed(1) + 'deg');
+          ws.appendChild(cs);
+          charIndex++;
+        }
+      } else {
+        ws.textContent = words[w];
+        ws.style.setProperty('--th', ((w / Math.max(1, words.length)) * 0.42).toFixed(3));
+      }
+      vis.appendChild(ws);
+    }
+    el.textContent = '';
+    el.appendChild(sr);
+    el.appendChild(vis);
+  }
+}
+splitAll();
+
+/* ============================================================
+   2. the scrub hero
+   ============================================================ */
+var VIDEO_URL   = 'assets/hero-scrub.mp4';
+var VIDEO_BYTES = 9107544;          /* real byte size; the fallback when Content-Length is missing */
+var POSTER_URL  = 'assets/hero-poster.jpg';
+var ENDING_URL  = 'assets/hero-ending.jpg';
+
+var heroSec = document.querySelector('.hero');
+var stage   = document.getElementById('stage');
+var video   = document.getElementById('hero');
+var poster  = document.getElementById('poster');
+var loader  = document.getElementById('loader');
+var ring    = loader ? loader.querySelector('circle') : null;
+var bandEls = [].slice.call(document.querySelectorAll('.band'));
+
+/* the static hero shows the ending frame; set from JS so it is never fetched twice */
+var staticBg = document.getElementById('staticBg');
+if (staticBg) staticBg.style.backgroundImage = "url('" + ENDING_URL + "')";
+
+var bands = bandEls.map(function(el){
+  return {
+    el: el,
+    a: parseFloat(el.getAttribute('data-a')),
+    b: parseFloat(el.getAttribute('data-b')),
+    first: el.hasAttribute('data-first'),
+    last: el.hasAttribute('data-last'),
+    ramp: parseFloat(el.getAttribute('data-ramp') || '0') || 0,
+    op: -1, k: -1
+  };
+});
+
+function heroProgress(){
+  if (!heroSec) return 0;
+  var rect = heroSec.getBoundingClientRect();
+  var range = heroSec.offsetHeight - window.innerHeight;
+  if (range <= 0) return 0;
+  return clamp(-rect.top / range, 0, 1);
+}
+function scrollRangeVh(){
+  if (!heroSec) return 700;
+  return (heroSec.offsetHeight - window.innerHeight) / window.innerHeight * 100;
+}
+
+/* ---- band painting, delta-gated ---- */
+var RAMP_VH = 18;   /* deviation from the default 0.02 cap: this hero's scroll range is shorter */
+var loadK = 0;      /* band one's one-time load ramp */
+
+var cueHidden = false;
+function updateCaptions(p){
+  var range = scrollRangeVh() || 700;
+  var hide = p > 0.05;
+  if (hide !== cueHidden){ cueHidden = hide; stage.classList.toggle('moved', hide); }
+  for (var i = 0; i < bands.length; i++){
+    var bd = bands[i];
+    var len = bd.b - bd.a;
+    var f = Math.min(len / 3, RAMP_VH / range);
+    var inOp  = bd.first ? 1 : smoothstep(p, bd.a, bd.a + f);
+    var outOp = bd.last  ? 0 : smoothstep(p, bd.b - f, bd.b);
+    var op = clamp(inOp * (1 - outOp), 0, 1);
+
+    var ramp = bd.ramp || Math.min(0.025, len * 0.35);
+    var k = clamp((p - bd.a) / ramp, 0, 1);
+    if (bd.first) k = Math.max(k, loadK);
+
+    if (Math.abs(op - bd.op) > 0.004){ bd.op = op; bd.el.style.opacity = op.toFixed(3); }
+    if (Math.abs(k - bd.k) > 0.008){ bd.k = k; bd.el.style.setProperty('--k', k.toFixed(3)); }
+  }
+}
+
+/* ---- gated seeks (deadlock-safe) ---- */
+var seekBusy = false, pendingTime = null;
+function requestSeek(t){
+  if (!video.duration) return;
+  if (seekBusy){ pendingTime = t; return; }
+  seekBusy = true;
+  try { video.currentTime = t; } catch(e){ seekBusy = false; }
+}
+video.addEventListener('seeked', function(){
+  seekBusy = false;
+  if (pendingTime !== null){ var t = pendingTime; pendingTime = null; requestSeek(t); }
+});
+video.addEventListener('error', function(){ seekBusy = false; pendingTime = null; failVideo(); });
+
+/* ---- the lerp loop, frame-rate independent, rests when converged ---- */
+var target = 0, shown = 0, rafId = null, lastTick = 0, heroOnScreen = true;
+function tick(now){
+  var dt = Math.min(100, now - (lastTick || now));
+  lastTick = now;
+  var k = 0.16;
+  shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
+  if (Math.abs(target - shown) < 0.0005){
+    shown = target; rafId = null; lastTick = 0;
+  } else {
+    rafId = requestAnimationFrame(tick);
+  }
+  if (video.duration) requestSeek(shown * video.duration);
+  updateCaptions(shown);
+}
+function onScroll(){
+  target = heroProgress();
+  if (rafId === null && heroOnScreen) rafId = requestAnimationFrame(tick);
+}
+
+if (heroSec && 'IntersectionObserver' in window){
+  new IntersectionObserver(function(es){
+    heroOnScreen = es[0].isIntersecting;
+    if (heroOnScreen && rafId === null && scrubOn) rafId = requestAnimationFrame(tick);
+  }, { rootMargin: '10px' }).observe(heroSec);
+}
+
+/* ---- streamed Blob with an honest progress ring ---- */
+var heroInit = false;
+function initHeroOnce(){
+  if (heroInit) return;
+  heroInit = true;
+
+  poster.style.backgroundImage = "url('" + POSTER_URL + "')";
+
+  var started = false;
+  function startBlobFetch(){
+    if (started) return;
+    started = true;
+    loadHeroBlob().catch(failVideo);
+  }
+  var pimg = new Image();
+  pimg.onload = startBlobFetch;
+  pimg.onerror = startBlobFetch;
+  pimg.src = POSTER_URL;
+  setTimeout(startBlobFetch, 4000);
+
+  /* band one assembles once on load, then hands over to scroll */
+  var t0 = performance.now();
+  (function ramp(now){
+    var e = clamp((now - t0 - 260) / 900, 0, 1);
+    loadK = e * e * (3 - 2 * e);
+    updateCaptions(shown);
+    if (e < 1) requestAnimationFrame(ramp);
+  })(t0);
+}
+
+function loadHeroBlob(){
+  var ctrl = new AbortController();
+  var watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
+  var opts = { signal: ctrl.signal };
+  try { opts.priority = 'low'; } catch(e){}
+  return fetch(VIDEO_URL, opts).then(function(res){
+    if (!res.ok || !res.body) throw new Error('hero fetch failed');
+    var total = Number(res.headers.get('Content-Length')) || VIDEO_BYTES;
+    var reader = res.body.getReader();
+    var chunks = [], got = 0, lastRing = 0;
+    function pump(){
+      return reader.read().then(function(r){
+        if (r.done) return;
+        clearTimeout(watchdog);
+        watchdog = setTimeout(function(){ ctrl.abort(); }, 20000);
+        chunks.push(r.value);
+        got += r.value.length;
+        var frac = Math.min(1, got / total);
+        var now = performance.now();
+        if (ring && (now - lastRing > 100 || frac === 1)){
+          lastRing = now;
+          ring.style.setProperty('--ld', Math.round(126 * (1 - frac)));
+        }
+        return pump();
+      });
+    }
+    return pump().then(function(){
+      clearTimeout(watchdog);
+      if (ring) ring.style.setProperty('--ld', 0);
+      video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+      video.load();
+      video.addEventListener('canplay', function(){
+        requestSeek(heroProgress() * video.duration);
+        stage.classList.add('video-ready');
+      }, { once: true });
+    });
+  });
+}
+
+function failVideo(){
+  if (!stage) return;
+  stage.classList.add('video-failed');
+  stage.classList.add('video-ready');   /* reveals the cue, hides the ring; poster stays visible */
+  if (poster) poster.style.opacity = '1';
+}
+
+/* ============================================================
+   3. the five static-hero gates, live in both directions
+   ============================================================ */
+var GATES = [
+  '(max-width: 720px)',
+  '(orientation: portrait) and (max-width: 1024px)',
+  '(orientation: portrait) and (pointer: coarse)',
+  '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
+  '(prefers-reduced-motion: reduce)'
+];
+var scrubOn = false;
+function enableScrub(){
+  if (scrubOn) return;
+  scrubOn = true;
+  initHeroOnce();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  bands.forEach(function(b){ b.op = -1; b.k = -1; });
+  unpinFinalStates();
+  updateCaptions(heroProgress());
+  onScroll();
+}
+function disableScrub(){
+  if (!scrubOn) return;
+  scrubOn = false;
+  window.removeEventListener('scroll', onScroll);
+  if (rafId !== null){ cancelAnimationFrame(rafId); rafId = null; }
+}
+function applyHeroMode(){
+  var gated = GATES.some(function(q){ return matchMedia(q).matches; });
+  if (gated) disableScrub(); else enableScrub();
+}
+var MQLS = GATES.map(function(q){ return matchMedia(q); });
+MQLS.forEach(function(m){
+  if (m.addEventListener) m.addEventListener('change', applyHeroMode);
+  else if (m.addListener) m.addListener(applyHeroMode);
+});
+
+/* ============================================================
+   4. section entrances, counters, self-drawing ridges
+   ============================================================ */
+var sections = [].slice.call(document.querySelectorAll('section'));
+if ('IntersectionObserver' in window){
+  var secObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        e.target.classList.add('in','vis-on');
+        setTimeout(function(){ e.target.classList.add('done'); }, 1400);
+        runCounters(e.target);
+      } else {
+        e.target.classList.remove('vis-on');   /* stop loops off-screen */
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  sections.forEach(function(s){ secObs.observe(s); });
+} else {
+  sections.forEach(function(s){ s.classList.add('in','done','vis-on'); });
+}
+
+var counted = [];
+function runCounters(scope){
+  var els = [].slice.call(scope.querySelectorAll('[data-count]'));
+  els.forEach(function(el){
+    if (counted.indexOf(el) !== -1) return;
+    counted.push(el);
+    var endVal = parseFloat(el.getAttribute('data-count'));
+    var dec = (String(endVal).indexOf('.') !== -1) ? 1 : 0;
+    if (prefersReduced()){ el.textContent = endVal.toFixed(dec); return; }
+    var t0 = performance.now(), dur = 1100, lastTxt = '';
+    (function step(now){
+      var p = clamp((now - t0) / dur, 0, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      var txt = (endVal * e).toFixed(dec);
+      if (txt !== lastTxt){ lastTxt = txt; el.textContent = txt; }
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  });
+}
+
+/* ridges draw themselves as their section crosses the viewport */
+var ridges = [].slice.call(document.querySelectorAll('.ridge'));
+var ridgePinned = false;
+function paintRidges(){
+  if (ridgePinned) return;
+  for (var i = 0; i < ridges.length; i++){
+    var r = ridges[i];
+    var rect = r.getBoundingClientRect();
+    var p = clamp((window.innerHeight * 0.92 - rect.top) / (window.innerHeight * 0.55), 0, 1);
+    var cur = r.__d || -1;
+    if (Math.abs(p - cur) > 0.01){
+      r.__d = p;
+      r.style.setProperty('--draw', p.toFixed(3));
+    }
+  }
+}
+
+/* nav turns solid once the hero is behind us */
+var nav = document.getElementById('nav');
+var navSolid = false;
+function paintNav(){
+  var want = window.scrollY > window.innerHeight * 0.65;
+  if (want !== navSolid){ navSolid = want; nav.classList.toggle('solid', want); }
+}
+
+var pageTicking = false;
+window.addEventListener('scroll', function(){
+  if (pageTicking) return;
+  pageTicking = true;
+  requestAnimationFrame(function(){ paintRidges(); paintNav(); pageTicking = false; });
+}, { passive: true });
+
+/* ============================================================
+   5. the hour dial: live Vadodara time, and the press-and-hold
+   ============================================================ */
+var OPEN_START = 8, OPEN_END = 26;      /* 8am to 2am the next day, on an 18 hour arc */
+var P0 = [60,248], P1 = [500,28], P2 = [940,248];
+function arcPoint(t){
+  var mt = 1 - t;
+  return [ mt*mt*P0[0] + 2*mt*t*P1[0] + t*t*P2[0],
+           mt*mt*P0[1] + 2*mt*t*P1[1] + t*t*P2[1] ];
+}
+function istNow(){
+  var now = new Date();
+  return new Date(now.getTime() + now.getTimezoneOffset()*60000 + 5.5*3600000);
+}
+function hoursIST(){
+  var d = istNow();
+  return d.getHours() + d.getMinutes()/60;
+}
+/* position on the arc for a clock hour, 0 at 8am and 1 at 2am */
+function arcT(h){
+  var hh = (h < OPEN_START) ? h + 24 : h;
+  return clamp((hh - OPEN_START) / (OPEN_END - OPEN_START), 0, 1);
+}
+
+var ticksG   = document.getElementById('ticks');
+var nowDot   = document.getElementById('nowDot');
+var nowHalo  = document.getElementById('nowHalo');
+var sunDot   = document.getElementById('sunDot');
+var arcTrail = document.getElementById('arcTrail');
+var readTxt  = document.getElementById('readoutText');
+var statusDot= document.getElementById('statusDot');
+var holdBtn  = document.getElementById('holdBtn');
+var dialSec  = document.getElementById('dial');
+
+if (ticksG){
+  var marks = [8,11,14,17,20,23,26];
+  var names = ['8am','11am','2pm','5pm','8pm','11pm','2am'];
+  for (var m = 0; m < marks.length; m++){
+    var t  = arcT(marks[m] >= 24 ? marks[m] - 24 : marks[m]);
+    var pt = arcPoint(t);
+    var ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('class','tick');
+    ln.setAttribute('x1', pt[0].toFixed(1)); ln.setAttribute('y1', (pt[1]+10).toFixed(1));
+    ln.setAttribute('x2', pt[0].toFixed(1)); ln.setAttribute('y2', (pt[1]+22).toFixed(1));
+    ticksG.appendChild(ln);
+    var tx = document.createElementNS('http://www.w3.org/2000/svg','text');
+    tx.setAttribute('class','lbl');
+    tx.setAttribute('x', pt[0].toFixed(1)); tx.setAttribute('y', (pt[1]+44).toFixed(1));
+    tx.setAttribute('text-anchor','middle');
+    tx.textContent = names[m];
+    ticksG.appendChild(tx);
+  }
+}
+
+function plural(n, w){ return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+var lastRead = '';
+function paintClock(){
+  if (!nowDot) return;
+  var h  = hoursIST();
+  var open = (h >= 8) || (h < 2);
+  var t  = arcT(h);
+  var pt = arcPoint(t);
+  nowDot.setAttribute('cx', pt[0].toFixed(1));  nowDot.setAttribute('cy', pt[1].toFixed(1));
+  nowHalo.setAttribute('cx', pt[0].toFixed(1)); nowHalo.setAttribute('cy', pt[1].toFixed(1));
+
+  var d = istNow();
+  var hh = d.getHours(), mm = d.getMinutes();
+  var ampm = hh >= 12 ? 'pm' : 'am';
+  var h12  = hh % 12; if (h12 === 0) h12 = 12;
+  var clock = h12 + ':' + (mm < 10 ? '0' : '') + mm + ampm;
+
+  var tail;
+  if (open){
+    var left = (h < 2) ? (2 - h) : (26 - h);     /* last pour is 2am */
+    var mins = Math.round(left * 60);
+    tail = mins >= 60
+      ? 'open for ' + plural(Math.floor(mins/60), 'more hour')
+      : 'open for ' + plural(mins, 'more minute');
+  } else {
+    var om = Math.round((8 - h) * 60);           /* closed only between 2am and 8am */
+    tail = om >= 60
+      ? 'we open in ' + plural(Math.floor(om/60), 'hour')
+      : 'we open in ' + plural(om, 'minute');
+  }
+  var txt = 'It is ' + clock + ' in Vadodara · ' + tail;
+  if (txt !== lastRead){
+    lastRead = txt;
+    readTxt.textContent = txt;
+    statusDot.classList.toggle('open', open);
+  }
+}
+paintClock();
+setInterval(paintClock, 20000);
+
+/* the press and hold */
+var hold = 0, holdDown = false, holdRaf = null, holdLast = 0, holdDone = false;
+function setHold(v){
+  hold = clamp(v, 0, 1);
+  dialSec.style.setProperty('--hold', hold.toFixed(3));
+  if (holdBtn) holdBtn.style.setProperty('--hold', hold.toFixed(3));
+  if (arcTrail) arcTrail.setAttribute('stroke-dashoffset', (1 - hold).toFixed(3));
+  if (sunDot){
+    var pt = arcPoint(hold);
+    sunDot.setAttribute('cx', pt[0].toFixed(1));
+    sunDot.setAttribute('cy', pt[1].toFixed(1));
+    sunDot.style.opacity = hold > 0.004 ? '1' : '0';
+  }
+  if (!holdDone && hold >= 0.999){
+    holdDone = true;
+    dialSec.classList.add('dial-done');
+    if (holdBtn) holdBtn.querySelector('.lab').textContent = 'That is the whole day';
+  }
+}
+function holdTick(now){
+  var dt = Math.min(100, now - (holdLast || now)) / 1000;
+  holdLast = now;
+  var next = holdDown ? hold + dt / 2.4 : hold - dt / 1.5;
+  setHold(next);
+  if ((holdDown && hold < 1) || (!holdDown && hold > 0)){
+    holdRaf = requestAnimationFrame(holdTick);
+  } else {
+    holdRaf = null; holdLast = 0;
+  }
+}
+function holdStart(e){
+  if (e && e.cancelable) e.preventDefault();
+  holdDown = true;
+  if (holdRaf === null) holdRaf = requestAnimationFrame(holdTick);
+}
+function holdEnd(){
+  holdDown = false;
+  if (holdRaf === null && hold > 0) holdRaf = requestAnimationFrame(holdTick);
+}
+if (holdBtn){
+  holdBtn.addEventListener('pointerdown', holdStart);
+  window.addEventListener('pointerup', holdEnd);
+  window.addEventListener('pointercancel', holdEnd);
+  holdBtn.addEventListener('keydown', function(e){
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); holdStart(); }
+  });
+  holdBtn.addEventListener('keyup', function(e){
+    if (e.key === ' ' || e.key === 'Enter'){ holdEnd(); }
+  });
+}
+
+/* ============================================================
+   6. reduced motion, honoured live, in both directions
+   ============================================================ */
+function prefersReduced(){ return matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+function pinToFinalStates(){
+  ridgePinned = true;
+  ridges.forEach(function(r){ r.style.setProperty('--draw', '1'); r.__d = 1; });
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var v = parseFloat(el.getAttribute('data-count'));
+    el.textContent = v.toFixed(String(v).indexOf('.') !== -1 ? 1 : 0);
+  });
+  if (holdRaf !== null){ cancelAnimationFrame(holdRaf); holdRaf = null; }
+  holdDown = false;
+  setHold(1);
+  sections.forEach(function(s){ s.classList.add('in','done'); });
+}
+function unpinFinalStates(){
+  ridgePinned = false;
+  ridges.forEach(function(r){ r.__d = -1; });
+  paintRidges();
+  if (!holdDone){
+    setHold(0);
+    dialSec.classList.remove('dial-done');
+  }
+}
+var rmq = matchMedia('(prefers-reduced-motion: reduce)');
+function onReduced(e){
+  if (e.matches) pinToFinalStates();
+  else applyHeroMode();
+}
+if (rmq.addEventListener) rmq.addEventListener('change', onReduced);
+else if (rmq.addListener) rmq.addListener(onReduced);
+
+/* ============================================================
+   7. pause every loop on a hidden tab
+   ============================================================ */
+document.addEventListener('visibilitychange', function(){
+  document.body.classList.toggle('paused', document.hidden);
+});
+
+/* ============================================================
+   8. go
+   ============================================================ */
+if (prefersReduced()) pinToFinalStates();
+applyHeroMode();
+paintRidges();
+paintNav();
+
+})();
+</script>
+</body>
+</html>
